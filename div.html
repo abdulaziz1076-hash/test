@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>دليل شركات التوصيل - قريباً | سوق المشاريع</title>
+    <meta name="description" content="دليل شركات التوصيل في الإمارات - قيد الإعداد. سجل اهتمامك وسنخبرك عند الإطلاق.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=El+Messiri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* أنماط خاصة بصفحة "قريباً" */
+        .coming-soon-container {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .coming-soon-card {
+            background: white;
+            border-radius: 28px;
+            padding: 40px 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--light-gray);
+            margin-bottom: 30px;
+        }
+        .coming-soon-icon {
+            font-size: 70px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        .coming-soon-title {
+            font-family: 'El Messiri', serif;
+            font-size: 32px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+        .coming-soon-subtitle {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        .interest-form {
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        .interest-form input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .interest-form input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        .interest-form button {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--secondary);
+        }
+        .interest-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+        .info-note {
+            background: var(--light);
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: right;
+            border-right: 4px solid var(--secondary);
+        }
+        .info-note i {
+            color: var(--secondary);
+            margin-left: 8px;
+        }
+        .info-note p {
+            font-size: 13px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        [dir="ltr"] .info-note {
+            border-right: none;
+            border-left: 4px solid var(--secondary);
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-section" onclick="window.location.href='index.html'">
+                <div class="logo-icon">
+                    <img src="images/logo.png" alt="سوق المشاريع" onerror="this.src='https://placehold.co/60x60/0F3D2E/white?text=SM'">
+                </div>
+                <div class="logo-text">
+                    <h1 id="siteTitle">سوق المشاريع</h1>
+                    <p id="siteSubtitle">المشاريع في الامارات</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="lang-toggle" id="langToggleBtn">
+                    <i class="fas fa-globe"></i>
+                    <span id="langBtnText">English</span>
+                </div>
+                <div class="menu-toggle" id="menuToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i>
+                <span id="navHome">الرئيسية</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='index.html#projects/emirate/all'">
+                <i class="fas fa-store"></i>
+                <span id="navMarket">السوق</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='services.html'">
+                <i class="fas fa-cogs"></i>
+                <span id="navServices">الخدمات العامة</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='registerr.html'">
+                <i class="fas fa-user-plus"></i>
+                <span id="navRegister">تسجيل مشروع</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='index.html#/favorites'">
+                <i class="fas fa-heart"></i>
+                <span id="navFavorites">المفضلة</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header with-back">
+        <a href="services.html" class="back-button"><i class="fas fa-arrow-right"></i></a>
+        <h1 class="page-title" id="heroTitle">دليل شركات التوصيل</h1>
+        <p class="page-subtitle" id="heroSubtitle">قريباً - دليل شامل لخدمات التوصيل في الإمارات</p>
+    </div>
+
+    <div class="coming-soon-container">
+        <div class="coming-soon-card">
+            <div class="coming-soon-icon">
+                <i class="fas fa-truck-fast"></i>
+            </div>
+            <h1 class="coming-soon-title" id="mainTitle">🚚 قيد التجهيز</h1>
+            <p class="coming-soon-subtitle" id="mainSubtitle">
+                نحن نعمل حالياً على تجهيز دليل متكامل لشركات التوصيل المعتمدة في الإمارات.
+                <br>سيشمل الدليل مقارنة الأسعار، مناطق التغطية، وطرق التواصل.
+            </p>
+
+            <div class="interest-form">
+                <input type="email" id="notifyEmail" placeholder="بريدك الإلكتروني" autocomplete="email">
+                <input type="text" id="notifyPhone" placeholder="رقم الواتساب (اختياري)">
+                <button id="notifyBtn">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifyText">أبلغني عند الإطلاق</span>
+                </button>
+            </div>
+
+            <div class="info-note">
+                <i class="fas fa-building"></i>
+                <p id="noteText">
+                    <strong>لشركات التوصيل:</strong> إذا كنت ممثلاً لشركة توصيل معتمدة في الإمارات وترغب في إضافة خدماتك إلى دليلنا مجاناً، 
+                    <a href="registerr.html" style="color: var(--secondary);">تواصل معنا من هنا</a> وسنقوم بإضافتك فور إطلاق الدليل.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast-message"></div>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-logo" id="footerLogo">سوق المشاريع</div>
+            <p style="font-size: 11px; opacity: 0.9; margin-bottom: 15px;" id="footerText">منصة المشاريع الإماراتية</p>
+            <div id="footerKeywords" style="font-size: 10px; color: #aaa; margin-top: 15px; text-align: center; direction: rtl;">
+                سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة
+            </div>
+            <div class="footer-links">
+                <a href="privacy.html"><i class="fas fa-lock"></i> <span id="privacyLink">سياسة الخصوصية</span></a>
+                <span style="color: var(--gray);">|</span>
+                <a href="terms.html"><i class="fas fa-file-contract"></i> <span id="termsLink">شروط الاستخدام</span></a>
+            </div>
+            <div class="copyright" id="copyrightText">© 2026 سوق المشاريع - جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        const translations = {
+            ar: {
+                siteTitle: "سوق المشاريع",
+                siteSubtitle: "المشاريع في الامارات",
+                langBtnText: "English",
+                navHome: "الرئيسية",
+                navMarket: "السوق",
+                navServices: "الخدمات العامة",
+                navRegister: "تسجيل مشروع",
+                navFavorites: "المفضلة",
+                heroTitle: "دليل شركات التوصيل",
+                heroSubtitle: "قريباً - دليل شامل لخدمات التوصيل في الإمارات",
+                mainTitle: "🚚 قيد التجهيز",
+                mainSubtitle: "نحن نعمل حالياً على تجهيز دليل متكامل لشركات التوصيل المعتمدة في الإمارات.\nسيشمل الدليل مقارنة الأسعار، مناطق التغطية، وطرق التواصل.",
+                notifyText: "أبلغني عند الإطلاق",
+                noteText: "لشركات التوصيل: إذا كنت ممثلاً لشركة توصيل معتمدة في الإمارات وترغب في إضافة خدماتك إلى دليلنا مجاناً، تواصل معنا من هنا وسنقوم بإضافتك فور إطلاق الدليل.",
+                toastSuccess: "✅ تم تسجيل اهتمامك! سنخبرك عند الإطلاق.",
+                toastError: "❌ يرجى إدخال بريد إلكتروني صحيح",
+                footerLogo: "سوق المشاريع",
+                footerText: "منصة المشاريع الإماراتية",
+                privacyLink: "سياسة الخصوصية",
+                termsLink: "شروط الاستخدام",
+                copyrightText: "© 2026 سوق المشاريع - جميع الحقوق محفوظة"
+            },
+            en: {
+                siteTitle: "Souq Almasharie",
+                siteSubtitle: "Projects in UAE",
+                langBtnText: "عربي",
+                navHome: "Home",
+                navMarket: "Market",
+                navServices: "Services",
+                navRegister: "Register Project",
+                navFavorites: "Favorites",
+                heroTitle: "Delivery Companies Guide",
+                heroSubtitle: "Coming Soon - Comprehensive delivery services guide in UAE",
+                mainTitle: "🚚 Coming Soon",
+                mainSubtitle: "We are currently preparing a comprehensive guide for approved delivery companies in the UAE.\nThe guide will include price comparison, coverage areas, and contact methods.",
+                notifyText: "Notify Me When Ready",
+                noteText: "For delivery companies: If you represent an approved delivery company in the UAE and want to add your services to our directory for free, contact us here and we will add you upon launch.",
+                toastSuccess: "✅ Interest registered! We'll notify you at launch.",
+                toastError: "❌ Please enter a valid email address",
+                footerLogo: "Souq Almasharie",
+                footerText: "UAE Projects Platform",
+                privacyLink: "Privacy Policy",
+                termsLink: "Terms of Use",
+                copyrightText: "© 2026 Souq Almasharie - All Rights Reserved"
+            }
+        };
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastMessage');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function updateLanguageUI() {
+            const t = translations[currentLang];
+            document.getElementById('siteTitle').innerText = t.siteTitle;
+            document.getElementById('siteSubtitle').innerText = t.siteSubtitle;
+            document.getElementById('langBtnText').innerText = t.langBtnText;
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navMarket').innerText = t.navMarket;
+            document.getElementById('navServices').innerText = t.navServices;
+            document.getElementById('navRegister').innerText = t.navRegister;
+            const navFav = document.getElementById('navFavorites');
+            if (navFav) navFav.innerText = t.navFavorites;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
+            document.getElementById('mainTitle').innerHTML = t.mainTitle;
+            document.getElementById('mainSubtitle').innerHTML = t.mainSubtitle;
+            document.getElementById('notifyText').innerText = t.notifyText;
+            document.getElementById('noteText').innerHTML = t.noteText;
+            document.getElementById('footerLogo').innerText = t.footerLogo;
+            document.getElementById('footerText').innerText = t.footerText;
+            document.getElementById('privacyLink').innerText = t.privacyLink;
+            document.getElementById('termsLink').innerText = t.termsLink;
+            document.getElementById('copyrightText').innerHTML = t.copyrightText;
+
+            const footerKeywords = document.getElementById('footerKeywords');
+            if (footerKeywords) {
+                footerKeywords.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
+                footerKeywords.innerText = currentLang === 'ar' 
+                    ? "سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة"
+                    : "Souq Almasharie | Home Projects Platform in UAE | Productive Families Directory";
+            }
+
+            if (currentLang === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+                document.body.classList.remove('en-mode');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', 'en');
+                document.body.classList.add('en-mode');
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('projectSouqLang', currentLang);
+            updateLanguageUI();
+        }
+
+        // تسجيل الاهتمام
+        document.getElementById('notifyBtn').addEventListener('click', function() {
+            const email = document.getElementById('notifyEmail').value.trim();
+            const phone = document.getElementById('notifyPhone').value.trim();
+            const t = translations[currentLang];
+            
+            if (!email || !email.includes('@')) {
+                showToast(t.toastError);
+                return;
+            }
+
+            // حفظ في localStorage مؤقتاً
+            let interests = JSON.parse(localStorage.getItem('deliveryInterest') || '[]');
+            interests.push({ email: email, phone: phone, date: new Date().toISOString() });
+            localStorage.setItem('deliveryInterest', JSON.stringify(interests));
+
+            // يمكنك أيضاً إرسال إلى Formspree أو Google Sheets
+            fetch('https://formspree.io/f/xvzvbgne', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    email: email, 
+                    phone: phone, 
+                    type: 'delivery_interest',
+                    message: `مهتم بدليل شركات التوصيل - البريد: ${email}، الهاتف: ${phone}`
+                })
+            }).catch(console.error);
+
+            showToast(t.toastSuccess);
+            document.getElementById('notifyEmail').value = '';
+            document.getElementById('notifyPhone').value = '';
+        });
+
+        // ربط القائمة
+        document.getElementById('langToggleBtn').addEventListener('click', toggleLanguage);
+        document.getElementById('menuToggleBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('navMenu');
+            const btn = document.getElementById('menuToggleBtn');
+            if (menu && menu.classList.contains('active') && !menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // تحميل اللغة المحفوظة
+        const savedLang = localStorage.getItem('projectSouqLang');
+        if (savedLang === 'en') {
+            currentLang = 'en';
+        }
+        updateLanguageUI();
+    </script>
+</body>
+</html>

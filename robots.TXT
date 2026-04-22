@@ -1,0 +1,23 @@
+# robots.txt for Souq Almasharie (سوق المشاريع)
+# Website: https://souqalmasharie.onrender.com/
+# Last updated: 2026-04-16
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+
+# Specify a crawl delay to be respectful to the server (optional)
+Crawl-delay: 1
+
+# Disallow any potential admin or private paths (none exist currently, but kept for future)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /backup/
+Disallow: /tmp/
+
+# Sitemap location (primary and backup)
+Sitemap: https://souqalmasharie.onrender.com/sitemap.xml
+Sitemap: https://souqalmasharie.onrender.com/sitemap_index.xml   # if you create an index later
+
+# Host directive (optional but recommended for clarity)
+Host: https://souqalmasharie.onrender.com

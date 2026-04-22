@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شكراً لتسجيلك - سوق المشاريع</title>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="thankyou-container">
+        <div class="check-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        
+        <h1 id="thankyouTitle">شكراً لتسجيلك! 🌟</h1>
+        
+        <div class="thankyou-message">
+            <p id="msg1">تم استلام طلب تسجيل مشروعك بنجاح.</p>
+            <p id="msg2">سنقوم بمراجعة بياناتك والتواصل معك خلال <strong>24 ساعة</strong> عبر الواتساب.</p>
+        </div>
+        
+        <div class="info-box">
+            <p><i class="fas fa-clock"></i> <strong id="stepsTitle">الخطوات القادمة:</strong></p>
+            <p><i class="fas fa-check-circle"></i> <span id="step1">مراجعة بيانات مشروعك</span></p>
+            <p><i class="fas fa-check-circle"></i> <span id="step2">التواصل معك لتأكيد التسجيل</span></p>
+            <p><i class="fas fa-check-circle"></i> <span id="step3">إضافة مشروعك إلى المنصة</span></p>
+            <p><i class="fas fa-check-circle"></i> <span id="step4">إشعارك عند اكتمال النشر</span></p>
+        </div>
+        
+        <div class="button-group">
+            <a href="index.html" class="primary-btn" id="homeLink">
+                <i class="fas fa-home"></i>
+                <span id="homeBtnText">العودة للرئيسية</span>
+            </a>
+            <a href="index.html#projects/emirate/all" class="secondary-btn" id="projectsLink">
+                <i class="fas fa-store"></i>
+                <span id="projectsBtnText">استكشاف المشاريع</span>
+            </a>
+        </div>
+        
+        <p style="margin-top: 25px; font-size: 12px; color: var(--gray);">
+            <i class="fas fa-envelope"></i> <span id="contactText">للإستفسار:</span> abdulaziz1076@gmail.com
+        </p>
+    </div>
+
+    <script>
+        // تحديد اللغة من localStorage
+        const userLang = localStorage.getItem('projectSouqLang') || 'ar';
+        
+        // النصوص حسب اللغة
+        const texts = {
+            ar: {
+                thankyouTitle: 'شكراً لتسجيلك! 🌟',
+                msg1: 'تم استلام طلب تسجيل مشروعك بنجاح.',
+                msg2: 'سنقوم بمراجعة بياناتك والتواصل معك خلال <strong>24 ساعة</strong> عبر الواتساب.',
+                stepsTitle: 'الخطوات القادمة:',
+                step1: 'مراجعة بيانات مشروعك',
+                step2: 'التواصل معك لتأكيد التسجيل',
+                step3: 'إضافة مشروعك إلى المنصة',
+                step4: 'إشعارك عند اكتمال النشر',
+                homeBtnText: 'العودة للرئيسية',
+                projectsBtnText: 'استكشاف المشاريع',
+                contactText: 'للإستفسار:'
+            },
+            en: {
+                thankyouTitle: 'Thank You for Registering! 🌟',
+                msg1: 'Your project registration request has been received successfully.',
+                msg2: 'We will review your data and contact you within <strong>24 hours</strong> via WhatsApp.',
+                stepsTitle: 'Next Steps:',
+                step1: 'Review your project data',
+                step2: 'Contact you to confirm registration',
+                step3: 'Add your project to the platform',
+                step4: 'Notify you when published',
+                homeBtnText: 'Back to Home',
+                projectsBtnText: 'Explore Projects',
+                contactText: 'For inquiries:'
+            }
+        };
+        
+        // تطبيق النصوص حسب اللغة
+        const t = texts[userLang];
+        
+        document.getElementById('thankyouTitle').innerHTML = t.thankyouTitle;
+        document.getElementById('msg1').innerHTML = t.msg1;
+        document.getElementById('msg2').innerHTML = t.msg2;
+        document.getElementById('stepsTitle').innerHTML = t.stepsTitle;
+        document.getElementById('step1').innerHTML = t.step1;
+        document.getElementById('step2').innerHTML = t.step2;
+        document.getElementById('step3').innerHTML = t.step3;
+        document.getElementById('step4').innerHTML = t.step4;
+        document.getElementById('homeBtnText').innerHTML = t.homeBtnText;
+        document.getElementById('projectsBtnText').innerHTML = t.projectsBtnText;
+        document.getElementById('contactText').innerHTML = t.contactText;
+        
+        // تغيير اتجاه الصفحة حسب اللغة
+        if (userLang === 'en') {
+            document.documentElement.setAttribute('dir', 'ltr');
+            document.documentElement.setAttribute('lang', 'en');
+            document.body.style.fontFamily = "'Poppins', 'Almarai', sans-serif";
+        } else {
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
+            document.body.style.fontFamily = "'Almarai', sans-serif";
+        }
+    </script>
+</body>
+</html>

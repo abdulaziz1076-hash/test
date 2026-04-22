@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>مولد QR Code احترافي - سوق المشاريع</title>
+    <meta name="description" content="مولد QR Code احترافي - أنشئ رمز QR مخصص لمشروعك مع إضافة شعارك وتخصيص الألوان.">
+    
+    <!-- Google Fonts + Font Awesome (مطابق لـ index) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=El+Messiri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- QR & Cropper libs -->
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-section" onclick="window.location.href='index.html'">
+                <div class="logo-icon">
+                    <img src="images/logo.png" alt="سوق المشاريع" onerror="this.src='https://placehold.co/60x60/0F3D2E/white?text=SM'">
+                </div>
+                <div class="logo-text">
+                    <h1 id="siteTitle">سوق المشاريع</h1>
+                    <p id="siteSubtitle">المشاريع في الامارات</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="lang-toggle" id="langToggleBtn">
+                    <i class="fas fa-globe"></i>
+                    <span id="langBtnText">English</span>
+                </div>
+                <div class="menu-toggle" id="menuToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i>
+                <span id="navHome">الرئيسية</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='index.html#projects/emirate/all'">
+                <i class="fas fa-store"></i>
+                <span id="navMarket">السوق</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='services.html'">
+                <i class="fas fa-cogs"></i>
+                <span id="navServices">الخدمات العامة</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='registerr.html'">
+                <i class="fas fa-user-plus"></i>
+                <span id="navRegister">تسجيل مشروع</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header with-back">
+        <a href="services.html" class="back-button"><i class="fas fa-arrow-right"></i></a>
+        <h1 class="page-title" id="heroTitle">مولد QR Code احترافي</h1>
+        <p class="page-subtitle" id="heroSubtitle">أنشئ رمز QR خاصاً بمشروعك مع شعارك وألوانك</p>
+    </div>
+
+    <div class="qr-container">
+        <div class="tools-panel">
+            <div class="tool-group">
+                <label class="tool-title" id="labelUrl"><i class="fas fa-link"></i> رابط الحساب أو الموقع</label>
+                <input type="text" id="qrText" placeholder="https://instagram.com/your-project">
+            </div>
+            <div class="tool-group">
+                <label class="tool-title" id="labelColors"><i class="fas fa-palette"></i> ألوان الباركود</label>
+                <div class="controls-grid">
+                    <div class="color-picker"><input type="color" id="qrColor1" value="#0F3D2E"><span id="textMainColor">اللون الرئيسي</span></div>
+                    <div class="color-picker"><input type="color" id="qrColor2" value="#1A5F44"><span id="textGradColor">لون التدرج</span></div>
+                    <div class="color-picker" style="grid-column: span 2;"><input type="color" id="qrBgColor" value="#FFFFFF"><span id="textBgColor">لون الخلفية</span></div>
+                </div>
+            </div>
+            <div class="tool-group">
+                <label class="tool-title" id="labelLogo"><i class="fas fa-image"></i> شعار المشروع (اختياري)</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="qrLogo" accept="image/png, image/jpeg">
+                    <div class="file-upload-text" id="textUpload">اضغط هنا لرفع الشعار</div>
+                </div>
+            </div>
+            <button class="btn-generate" id="generateBtn"><i class="fas fa-qrcode"></i> <span id="btnGenText">توليد الباركود</span></button>
+        </div>
+        <div class="preview-panel">
+            <div id="qrcode"></div>
+            <button class="btn-download" id="downloadBtn" disabled><i class="fas fa-download"></i> <span id="btnDownText">تحميل الباركود</span></button>
+        </div>
+    </div>
+
+    <!-- مودال قص الصورة -->
+    <div class="modal-overlay" id="cropModal">
+        <div class="cropper-container-box">
+            <h3 id="cropTitle">ضبط الشعار</h3>
+            <div class="img-container"><img id="cropImage" src=""></div>
+            <div style="display: flex; gap: 10px;">
+                <button class="crop-btn" id="doCropBtn" style="flex:1;">تأكيد وقص</button>
+                <button class="cancel-btn" id="cancelCropBtn" style="flex:1;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast-message"></div>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-logo" id="footerLogo">سوق المشاريع</div>
+            <p style="font-size: 11px; opacity: 0.9; margin-bottom: 15px;" id="footerText">منصة المشاريع الإماراتية</p>
+            <div id="footerKeywords" style="font-size: 10px; color: #aaa; margin-top: 15px; text-align: center; direction: rtl;">
+                سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة
+            </div>
+            <div class="footer-links">
+                <a href="privacy.html"><i class="fas fa-lock"></i> <span id="privacyLink">سياسة الخصوصية</span></a>
+                <span style="color: var(--gray);">|</span>
+                <a href="terms.html"><i class="fas fa-file-contract"></i> <span id="termsLink">شروط الاستخدام</span></a>
+            </div>
+            <div class="copyright" id="copyrightText">© 2026 سوق المشاريع - جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+<script>
+    let qrCode = null;
+    let logoDataUrl = null;
+    let cropper = null;
+    let currentLang = 'ar';
+
+    // الترجمة
+    const translations = {
+        ar: {
+            siteTitle: "سوق المشاريع", siteSubtitle: "المشاريع في الامارات",
+            navHome: "الرئيسية", navMarket: "السوق", navServices: "الخدمات العامة", navRegister: "تسجيل مشروع",
+            heroTitle: "مولد QR Code احترافي", heroSubtitle: "أنشئ رمز QR خاصاً بمشروعك مع شعارك وألوانك",
+            labelUrl: "رابط الحساب أو الموقع", placeholderUrl: "https://instagram.com/your-project",
+            labelColors: "ألوان الباركود", textMainColor: "اللون الرئيسي", textGradColor: "لون التدرج", textBgColor: "لون الخلفية",
+            labelLogo: "شعار المشروع (اختياري)", textUpload: "اضغط هنا لرفع الشعار", textUploadDone: "تم اختيار الشعار",
+            btnGenText: "توليد الباركود", btnDownText: "تحميل الباركود",
+            cropTitle: "ضبط الشعار", doCropBtn: "تأكيد وقص", cancelCropBtn: "إلغاء",
+            toastGen: "✅ تم إنشاء QR Code", toastDownload: "📥 بدأ التحميل", langBtnText: "English",
+            footerLogo: "سوق المشاريع", footerText: "منصة المشاريع الإماراتية", privacyLink: "سياسة الخصوصية", termsLink: "شروط الاستخدام", copyrightText: "© 2026 سوق المشاريع - جميع الحقوق محفوظة"
+        },
+        en: {
+            siteTitle: "Souq Almasharie", siteSubtitle: "Projects in UAE",
+            navHome: "Home", navMarket: "Market", navServices: "Services", navRegister: "Register Project",
+            heroTitle: "Professional QR Code Generator", heroSubtitle: "Create a custom QR code for your project with your logo and colors",
+            labelUrl: "Account or Website URL", placeholderUrl: "https://instagram.com/your-project",
+            labelColors: "QR Colors", textMainColor: "Main Color", textGradColor: "Gradient Color", textBgColor: "Background Color",
+            labelLogo: "Project Logo (Optional)", textUpload: "Click here to upload logo", textUploadDone: "Logo Selected",
+            btnGenText: "Generate QR Code", btnDownText: "Download QR Code",
+            cropTitle: "Adjust Logo", doCropBtn: "Confirm & Crop", cancelCropBtn: "Cancel",
+            toastGen: "✅ QR Code Generated", toastDownload: "📥 Downloading started", langBtnText: "عربي",
+            footerLogo: "Souq Almasharie", footerText: "UAE Home-Based Business Platform", privacyLink: "Privacy Policy", termsLink: "Terms of Use", copyrightText: "© 2026 Souq Almasharie - All Rights Reserved"
+        }
+    };
+
+    const inputText = document.getElementById("qrText");
+    const generateBtn = document.getElementById("generateBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const logoInput = document.getElementById("qrLogo");
+    const textUploadSpan = document.getElementById("textUpload");
+    const cropModal = document.getElementById("cropModal");
+    const cropImage = document.getElementById("cropImage");
+    const doCropBtn = document.getElementById("doCropBtn");
+    const cancelCropBtn = document.getElementById("cancelCropBtn");
+
+    function showToast(msg) {
+        const toast = document.getElementById('toastMessage');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    logoInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                cropImage.src = event.target.result;
+                cropModal.style.display = "flex";
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(cropImage, { aspectRatio: 1, viewMode: 1, autoCropArea: 1, background: false });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    doCropBtn.addEventListener("click", () => {
+        if (cropper) {
+            const canvas = cropper.getCroppedCanvas({ width: 200, height: 200 });
+            logoDataUrl = canvas.toDataURL("image/png");
+            textUploadSpan.textContent = translations[currentLang].textUploadDone;
+            textUploadSpan.style.color = "var(--secondary)";
+            cropModal.style.display = "none";
+            cropper.destroy();
+            if (inputText.value.trim()) generateBtn.click();
+        }
+    });
+    cancelCropBtn.addEventListener("click", () => {
+        cropModal.style.display = "none";
+        logoInput.value = "";
+        if (cropper) cropper.destroy();
+    });
+
+    generateBtn.addEventListener("click", () => {
+        const text = inputText.value.trim();
+        const color1 = document.getElementById("qrColor1").value;
+        const color2 = document.getElementById("qrColor2").value;
+        const bgColor = document.getElementById("qrBgColor").value;
+        if (!text) {
+            inputText.style.borderColor = "red";
+            setTimeout(() => inputText.style.borderColor = "var(--light-gray)", 1500);
+            return;
+        }
+        document.getElementById("qrcode").innerHTML = "";
+        qrCode = new QRCodeStyling({
+            width: 260,
+            height: 260,
+            data: text,
+            image: logoDataUrl || undefined,
+            dotsOptions: {
+                type: "rounded",
+                color: color1,
+                gradient: { type: "linear", rotation: 90, colorStops: [{ offset: 0, color: color1 }, { offset: 1, color: color2 }] }
+            },
+            cornersSquareOptions: { type: "extra-rounded" },
+            cornersDotOptions: { type: "rounded" },
+            backgroundOptions: { color: bgColor },
+            imageOptions: { crossOrigin: "anonymous", margin: 5, imageSize: 0.5 }
+        });
+        qrCode.append(document.getElementById("qrcode"));
+        downloadBtn.disabled = false;
+        showToast(translations[currentLang].toastGen);
+    });
+
+    downloadBtn.addEventListener("click", () => {
+        if (qrCode) {
+            qrCode.download({ name: "project-qr", extension: "png" });
+            showToast(translations[currentLang].toastDownload);
+        }
+    });
+
+    setTimeout(() => {
+        if (!inputText.value) {
+            inputText.value = "https://souqalmasharie.onrender.com";
+            generateBtn.click();
+        }
+    }, 300);
+
+    function updateLanguage() {
+        const t = translations[currentLang];
+        document.getElementById('siteTitle').innerText = t.siteTitle;
+        document.getElementById('siteSubtitle').innerText = t.siteSubtitle;
+        document.getElementById('navHome').innerText = t.navHome;
+        document.getElementById('navMarket').innerText = t.navMarket;
+        document.getElementById('navServices').innerText = t.navServices;
+        document.getElementById('navRegister').innerText = t.navRegister;
+        document.getElementById('heroTitle').innerText = t.heroTitle;
+        document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
+        document.getElementById('labelUrl').innerHTML = `<i class="fas fa-link"></i> ${t.labelUrl}`;
+        inputText.placeholder = t.placeholderUrl;
+        document.getElementById('labelColors').innerHTML = `<i class="fas fa-palette"></i> ${t.labelColors}`;
+        document.getElementById('textMainColor').innerText = t.textMainColor;
+        document.getElementById('textGradColor').innerText = t.textGradColor;
+        document.getElementById('textBgColor').innerText = t.textBgColor;
+        document.getElementById('labelLogo').innerHTML = `<i class="fas fa-image"></i> ${t.labelLogo}`;
+        textUploadSpan.innerText = logoDataUrl ? t.textUploadDone : t.textUpload;
+        document.getElementById('btnGenText').innerText = t.btnGenText;
+        document.getElementById('btnDownText').innerText = t.btnDownText;
+        document.getElementById('cropTitle').innerText = t.cropTitle;
+        document.getElementById('doCropBtn').innerText = t.doCropBtn;
+        document.getElementById('cancelCropBtn').innerText = t.cancelCropBtn;
+        document.getElementById('langBtnText').innerText = t.langBtnText;
+        document.getElementById('footerLogo').innerText = t.footerLogo;
+        document.getElementById('footerText').innerText = t.footerText;
+        document.getElementById('privacyLink').innerText = t.privacyLink;
+        document.getElementById('termsLink').innerText = t.termsLink;
+        document.getElementById('copyrightText').innerText = t.copyrightText;
+        const footerKeywords = document.getElementById('footerKeywords');
+        if (footerKeywords) {
+            footerKeywords.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
+            footerKeywords.innerText = currentLang === 'ar' 
+                ? "سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة"
+                : "Souq Almasharie | Home Projects Platform in UAE | Productive Families Directory";
+        }
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        // ✅ استخدام المفتاح الموحد مع الصفحة الرئيسية
+        localStorage.setItem('projectSouqLang', currentLang);
+        document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('lang', currentLang === 'ar' ? 'ar' : 'en');
+        if (currentLang === 'en') document.body.classList.add('en-mode');
+        else document.body.classList.remove('en-mode');
+        updateLanguage();
+    }
+
+    document.getElementById('langToggleBtn').addEventListener('click', toggleLanguage);
+    document.getElementById('menuToggleBtn').addEventListener('click', () => {
+        document.getElementById('navMenu').classList.toggle('active');
+    });
+    document.addEventListener('click', (event) => {
+        const menu = document.getElementById('navMenu');
+        const btn = document.getElementById('menuToggleBtn');
+        if (menu && menu.classList.contains('active') && !menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.remove('active');
+        }
+    });
+
+    // ✅ قراءة اللغة المحفوظة من المفتاح الموحد
+    const savedLang = localStorage.getItem('projectSouqLang');
+    if (savedLang === 'en') {
+        currentLang = 'en';
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', 'en');
+        document.body.classList.add('en-mode');
+    } else {
+        currentLang = 'ar';
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
+        document.body.classList.remove('en-mode');
+    }
+    updateLanguage();
+</script>
+</body>
+</html>

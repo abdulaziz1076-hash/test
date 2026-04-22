@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>شركات التوصيل - سوق المشاريع</title>
+    <meta name="description" content="دليل شركات التوصيل في الإمارات - قارن بين الخدمات والأسعار، توصيل مبرد، سريع، بين الإمارات.">
+    <meta name="keywords" content="شركات توصيل, شحن, مناديب, توصيل طلبات, الامارات, سوق المشاريع">
+    
+    <!-- Google Fonts + Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=El+Messiri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-section" onclick="window.location.href='index.html'">
+                <div class="logo-icon">
+                    <img src="images/logo.png" alt="سوق المشاريع" onerror="this.src='https://placehold.co/60x60/0F3D2E/white?text=SM'">
+                </div>
+                <div class="logo-text">
+                    <h1 id="siteTitle">سوق المشاريع</h1>
+                    <p id="siteSubtitle">المشاريع في الامارات</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="lang-toggle" id="langToggleBtn">
+                    <i class="fas fa-globe"></i>
+                    <span id="langBtnText">English</span>
+                </div>
+                <div class="menu-toggle" id="menuToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i>
+                <span id="navHome">الرئيسية</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='index.html#projects/emirate/all'">
+                <i class="fas fa-store"></i>
+                <span id="navMarket">السوق</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='services.html'">
+                <i class="fas fa-cogs"></i>
+                <span id="navServices">الخدمات العامة</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='registerr.html'">
+                <i class="fas fa-user-plus"></i>
+                <span id="navRegister">تسجيل مشروع</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header with-back">
+        <a href="services.html" class="back-button"><i class="fas fa-arrow-right"></i></a>
+        <h1 class="page-title" id="heroTitle">دليل شركات التوصيل</h1>
+        <p class="page-subtitle" id="heroSubtitle">قارن بين خدمات التوصيل داخل الإمارات</p>
+    </div>
+
+    <div class="filters-section">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن شركة توصيل...">
+            <i class="fas fa-search" id="searchIcon"></i>
+        </div>
+        <div class="scroll-container" id="emiratesContainer"></div>
+        <div class="scroll-container" id="servicesContainer"></div>
+    </div>
+
+    <div class="companies-grid" id="companiesGrid"></div>
+
+    <div id="companyModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <img id="modalLogo" class="modal-img" src="" alt="">
+            <div class="modal-body">
+                <h1 id="modalName" class="modal-title"></h1>
+                <div id="modalTags" style="margin-bottom: 12px;"></div>
+                <div id="modalDescription" class="modal-description"></div>
+                <h3 style="color: var(--primary-dark); margin-bottom: 12px; font-size: 18px;" id="servicesTitle"><i class="fas fa-list-ul"></i> جميع الخدمات والأسعار</h3>
+                <div id="modalServicesList" class="modal-services-list"></div>
+                <div class="contact-buttons" id="contactButtons"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-logo" id="footerLogo">سوق المشاريع</div>
+            <p style="font-size: 11px; opacity: 0.9; margin-bottom: 15px;" id="footerText">منصة المشاريع الإماراتية</p>
+            <div id="footerKeywords" style="font-size: 10px; color: #aaa; margin-top: 15px; text-align: center; direction: rtl;">
+                سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة
+            </div>
+            <div class="footer-links">
+                <a href="privacy.html"><i class="fas fa-lock"></i> <span id="privacyLink">سياسة الخصوصية</span></a>
+                <span style="color: var(--gray);">|</span>
+                <a href="terms.html"><i class="fas fa-file-contract"></i> <span id="termsLink">شروط الاستخدام</span></a>
+            </div>
+            <div class="copyright" id="copyrightText">© 2026 سوق المشاريع - جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+    <script>
+        // بيانات شركات التوصيل مع ترجمة كاملة للأسعار والملاحظات
+        const deliveryCompanies = [
+            { 
+                id: 1, name: "ديليفريت", nameEn: "DeliverIt", emirate: "dubai", 
+                logo: "https://placehold.co/200x150/0F3D2E/white?text=DeliverIt", 
+                description: "خدمة توصيل معتمدة من RTA، تغطي جميع إمارات الدولة مع إمكانية التوصيل في نفس اليوم. أسعار تنافسية وسيارات مكيفة.", 
+                descriptionEn: "RTA-approved delivery service covering all emirates with same-day delivery. Competitive prices and air-conditioned vehicles.", 
+                services: [
+                    { type: "local", name: "توصيل داخل دبي", nameEn: "Delivery inside Dubai", priceAr: "يبدأ من 18 درهم", priceEn: "Starting from 18 AED", noteAr: "حسب المسافة", noteEn: "depends on distance" },
+                    { type: "intercity", name: "توصيل دبي - أبوظبي", nameEn: "Dubai to Abu Dhabi", priceAr: "45 درهم", priceEn: "45 AED", noteAr: "حتى 5 كجم", noteEn: "up to 5 kg" },
+                    { type: "express", name: "توصيل سريع (نفس اليوم)", nameEn: "Same-day express", priceAr: "يبدأ من 35 درهم", priceEn: "Starting from 35 AED", noteAr: "للطلبات قبل 12 ظهراً", noteEn: "for orders before 12 PM" }
+                ], 
+                tags: ["مكيف", "تتبع", "تأمين"], 
+                contact: { whatsapp: "971501234567", phone: "042345678", website: "https://deliverit.ae" } 
+            },
+            { 
+                id: 2, name: "بارد فريج", nameEn: "Cold Fridge", emirate: "abudhabi", 
+                logo: "https://placehold.co/200x150/1A5F44/white?text=ColdFridge", 
+                description: "متخصصون في نقل الأطعمة والمشروبات المبردة والمجمدة. أسطول مبرد بالكامل مع ضمان درجة الحرارة.", 
+                descriptionEn: "Specialized in transporting chilled and frozen food and beverages. Fully refrigerated fleet with temperature guarantee.", 
+                services: [
+                    { type: "cold", name: "توصيل مبرد داخل أبوظبي", nameEn: "Chilled delivery inside Abu Dhabi", priceAr: "يبدأ من 25 درهم", priceEn: "Starting from 25 AED", noteAr: "حسب المسافة", noteEn: "depends on distance" },
+                    { type: "cold", name: "توصيل مبرد بين الإمارات", nameEn: "Chilled intercity", priceAr: "يبدأ من 55 درهم", priceEn: "Starting from 55 AED", noteAr: "دبي-أبوظبي 55 درهم", noteEn: "Dubai-Abu Dhabi 55 AED" }
+                ], 
+                tags: ["تبريد", "مجمّد", "سيارات مبردة"], 
+                contact: { whatsapp: "971567890123", phone: "026789012", website: "https://coldfridge.ae" } 
+            },
+            { 
+                id: 3, name: "سريع إكسبرس", nameEn: "Saree Express", emirate: "sharjah", 
+                logo: "https://placehold.co/200x150/D4AF37/white?text=Saree", 
+                description: "أسرع خدمة توصيل في الإمارات الشمالية ودبي. مناديب على دراجات نارية للطلبات الصغيرة والسريعة.", 
+                descriptionEn: "The fastest delivery service in the Northern Emirates and Dubai. Bikers for small and fast orders.", 
+                services: [
+                    { type: "local", name: "توصيل داخل الشارقة (دراجة)", nameEn: "Sharjah bike delivery", priceAr: "12 درهم", priceEn: "12 AED", noteAr: "لوزن أقل من 3 كجم", noteEn: "for weight under 3 kg" },
+                    { type: "express", name: "توصيل فوري (30-60 دقيقة)", nameEn: "Urgent delivery", priceAr: "يبدأ من 20 درهم", priceEn: "Starting from 20 AED", noteAr: "حسب الموقع", noteEn: "depends on location" }
+                ], 
+                tags: ["سريع", "دراجات نارية", "توصيل فوري"], 
+                contact: { whatsapp: "971502345678", phone: "043210987", website: "https://saree.ae" } 
+            }
+        ];
+
+        let currentLang = 'ar';
+        let activeEmirate = 'all';
+        let activeService = 'all';
+        let searchText = '';
+
+        // الترجمة الكاملة للواجهة
+        const translations = {
+            ar: {
+                siteTitle: "سوق المشاريع", siteSubtitle: "المشاريع في الامارات", langBtnText: "English",
+                navHome: "الرئيسية", navMarket: "السوق", navServices: "الخدمات العامة", navRegister: "تسجيل مشروع",
+                heroTitle: "دليل شركات التوصيل", heroSubtitle: "قارن بين خدمات التوصيل داخل الإمارات",
+                searchPlaceholder: "ابحث عن شركة توصيل...",
+                filterAllEmirates: "كل الإمارات", filterDubai: "دبي", filterAbuDhabi: "أبوظبي", filterSharjah: "الشارقة", filterAjman: "عجمان", filterRak: "رأس الخيمة", filterFujairah: "الفجيرة", filterUaq: "أم القيوين",
+                filterAllServices: "الكل", filterLocal: "توصيل داخل الإمارة", filterIntercity: "بين الإمارات", filterCold: "تبريد (أطعمة)", filterPersonal: "مندوب خاص", filterExpress: "توصيل سريع",
+                viewServices: "عرض الخدمات", servicesTitle: "جميع الخدمات والأسعار", noResults: "لا توجد شركات تطابق البحث",
+                footerLogo: "سوق المشاريع", footerText: "منصة المشاريع الإماراتية", privacyLink: "سياسة الخصوصية", termsLink: "شروط الاستخدام", copyrightText: "© 2026 سوق المشاريع - جميع الحقوق محفوظة"
+            },
+            en: {
+                siteTitle: "Souq Almasharie", siteSubtitle: "Projects in UAE", langBtnText: "عربي",
+                navHome: "Home", navMarket: "Market", navServices: "Services", navRegister: "Register Project",
+                heroTitle: "Delivery Companies Guide", heroSubtitle: "Compare delivery services within the UAE",
+                searchPlaceholder: "Search for delivery company...",
+                filterAllEmirates: "All Emirates", filterDubai: "Dubai", filterAbuDhabi: "Abu Dhabi", filterSharjah: "Sharjah", filterAjman: "Ajman", filterRak: "Ras Al Khaimah", filterFujairah: "Fujairah", filterUaq: "Umm Al Quwain",
+                filterAllServices: "All", filterLocal: "Local Delivery", filterIntercity: "Intercity", filterCold: "Cold Chain", filterPersonal: "Personal Courier", filterExpress: "Express",
+                viewServices: "View Services", servicesTitle: "All Services & Prices", noResults: "No companies match your search",
+                footerLogo: "Souq Almasharie", footerText: "UAE Projects Platform", privacyLink: "Privacy Policy", termsLink: "Terms of Use", copyrightText: "© 2026 Souq Almasharie - All Rights Reserved"
+            }
+        };
+
+        function updateLanguageUI() {
+            const t = translations[currentLang];
+            // تحديث نصوص الهيدر والقائمة
+            document.getElementById('siteTitle').innerText = t.siteTitle;
+            document.getElementById('siteSubtitle').innerText = t.siteSubtitle;
+            document.getElementById('langBtnText').innerText = t.langBtnText;
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navMarket').innerText = t.navMarket;
+            document.getElementById('navServices').innerText = t.navServices;
+            document.getElementById('navRegister').innerText = t.navRegister;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('servicesTitle').innerHTML = `<i class="fas fa-list-ul"></i> ${t.servicesTitle}`;
+            document.getElementById('footerLogo').innerText = t.footerLogo;
+            document.getElementById('footerText').innerText = t.footerText;
+            document.getElementById('privacyLink').innerText = t.privacyLink;
+            document.getElementById('termsLink').innerText = t.termsLink;
+            document.getElementById('copyrightText').innerHTML = t.copyrightText;
+            
+            // تحديث كلمات الفوتر السفلية
+            const footerKeywords = document.getElementById('footerKeywords');
+            if (footerKeywords) {
+                footerKeywords.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
+                footerKeywords.innerText = currentLang === 'ar' 
+                    ? "سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة"
+                    : "Souq Almasharie | Home Projects Platform in UAE | Productive Families Directory";
+            }
+            
+            // إعادة بناء الفلاتر والبطاقات
+            renderFilters();
+            renderCompanies();
+        }
+
+        function renderFilters() {
+            const t = translations[currentLang];
+            const emirates = [
+                { id: 'all', name: t.filterAllEmirates, icon: 'fas fa-flag' },
+                { id: 'dubai', name: t.filterDubai, icon: 'fas fa-city' },
+                { id: 'abudhabi', name: t.filterAbuDhabi, icon: 'fas fa-city' },
+                { id: 'sharjah', name: t.filterSharjah, icon: 'fas fa-city' },
+                { id: 'ajman', name: t.filterAjman, icon: 'fas fa-city' },
+                { id: 'rak', name: t.filterRak, icon: 'fas fa-city' },
+                { id: 'fujairah', name: t.filterFujairah, icon: 'fas fa-city' },
+                { id: 'uaq', name: t.filterUaq, icon: 'fas fa-city' }
+            ];
+            const services = [
+                { id: 'all', name: t.filterAllServices, icon: 'fas fa-th-large' },
+                { id: 'local', name: t.filterLocal, icon: 'fas fa-truck' },
+                { id: 'intercity', name: t.filterIntercity, icon: 'fas fa-road' },
+                { id: 'cold', name: t.filterCold, icon: 'fas fa-snowflake' },
+                { id: 'personal', name: t.filterPersonal, icon: 'fas fa-motorcycle' },
+                { id: 'express', name: t.filterExpress, icon: 'fas fa-bolt' }
+            ];
+            const emiratesHtml = emirates.map(e => `<div class="filter-chip ${activeEmirate === e.id ? 'active' : ''}" data-emirate="${e.id}"><i class="${e.icon}"></i><span>${e.name}</span></div>`).join('');
+            const servicesHtml = services.map(s => `<div class="filter-chip ${activeService === s.id ? 'active' : ''}" data-service="${s.id}"><i class="${s.icon}"></i><span>${s.name}</span></div>`).join('');
+            document.getElementById('emiratesContainer').innerHTML = emiratesHtml;
+            document.getElementById('servicesContainer').innerHTML = servicesHtml;
+            // attach events
+            document.querySelectorAll('#emiratesContainer .filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    activeEmirate = chip.dataset.emirate;
+                    renderFilters();
+                    renderCompanies();
+                });
+            });
+            document.querySelectorAll('#servicesContainer .filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    activeService = chip.dataset.service;
+                    renderFilters();
+                    renderCompanies();
+                });
+            });
+        }
+
+        function filterCompanies() {
+            return deliveryCompanies.filter(company => {
+                if (activeEmirate !== 'all' && company.emirate !== activeEmirate) return false;
+                if (activeService !== 'all') {
+                    const hasService = company.services.some(s => s.type === activeService);
+                    if (!hasService) return false;
+                }
+                if (searchText.trim()) {
+                    const name = currentLang === 'ar' ? company.name : company.nameEn;
+                    return name.toLowerCase().includes(searchText.toLowerCase());
+                }
+                return true;
+            });
+        }
+
+        function renderCompanies() {
+            const filtered = filterCompanies();
+            const grid = document.getElementById('companiesGrid');
+            const t = translations[currentLang];
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="empty-message">${t.noResults}</div>`;
+                return;
+            }
+            grid.innerHTML = filtered.map(company => {
+                const name = currentLang === 'ar' ? company.name : company.nameEn;
+                const visibleServices = company.services.slice(0, 2);
+                const tagsHtml = company.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                return `
+                    <div class="company-card" onclick="openCompanyModal(${company.id})">
+                        <div class="card-header">
+                            <div class="company-logo"><img src="${company.logo}" alt="${name}" loading="lazy"></div>
+                            <div class="company-basic">
+                                <h3>${name}</h3>
+                                <div class="tags">${tagsHtml}</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="services-list">
+                                ${visibleServices.map(s => {
+                                    const serviceName = currentLang === 'ar' ? s.name : s.nameEn;
+                                    const price = currentLang === 'ar' ? s.priceAr : s.priceEn;
+                                    return `<div class="service-item"><div class="service-info"><i class="fas fa-truck"></i><span class="service-name">${serviceName}</span></div><span class="service-price">${price}</span></div>`;
+                                }).join('')}
+                            </div>
+                            <button class="btn-view">${t.viewServices} <i class="fas fa-arrow-left"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCompanyModal(id) {
+            const company = deliveryCompanies.find(c => c.id === id);
+            if (!company) return;
+            const t = translations[currentLang];
+            const name = currentLang === 'ar' ? company.name : company.nameEn;
+            const description = currentLang === 'ar' ? company.description : company.descriptionEn;
+            document.getElementById('modalLogo').src = company.logo;
+            document.getElementById('modalName').innerText = name;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalTags').innerHTML = company.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            const servicesHtml = company.services.map(s => {
+                const serviceName = currentLang === 'ar' ? s.name : s.nameEn;
+                const price = currentLang === 'ar' ? s.priceAr : s.priceEn;
+                const note = currentLang === 'ar' ? s.noteAr : s.noteEn;
+                return `<div class="modal-service-row"><div><strong>${serviceName}</strong><br><span style="font-size: 11px; color: var(--gray);">${note}</span></div><div style="font-weight:800;">${price}</div></div>`;
+            }).join('');
+            document.getElementById('modalServicesList').innerHTML = servicesHtml;
+            const contactHtml = `
+                <a href="https://wa.me/${company.contact.whatsapp}" target="_blank" class="contact-btn whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="tel:${company.contact.phone}" class="contact-btn phone-btn"><i class="fas fa-phone"></i> ${currentLang === 'ar' ? 'اتصال' : 'Call'}</a>
+                <a href="${company.contact.website}" target="_blank" class="contact-btn website-btn"><i class="fas fa-globe"></i> ${currentLang === 'ar' ? 'الموقع' : 'Website'}</a>
+            `;
+            document.getElementById('contactButtons').innerHTML = contactHtml;
+            document.getElementById('companyModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('companyModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('projectSouqLang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', currentLang === 'ar' ? 'ar' : 'en');
+            if (currentLang === 'en') document.body.classList.add('en-mode');
+            else document.body.classList.remove('en-mode');
+            updateLanguageUI();
+        }
+
+        function performSearch() {
+            searchText = document.getElementById('searchInput').value.trim();
+            renderCompanies();
+        }
+
+        // الأحداث
+        document.getElementById('langToggleBtn').addEventListener('click', toggleLanguage);
+        document.getElementById('menuToggleBtn').addEventListener('click', () => {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+        document.getElementById('searchIcon').addEventListener('click', performSearch);
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.getElementById('menuToggleBtn');
+            if (menu && menu.classList.contains('active') && !menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove('active');
+        });
+
+        // التهيئة
+        const savedLang = localStorage.getItem('projectSouqLang');
+        if (savedLang === 'en') {
+            currentLang = 'en';
+            document.documentElement.setAttribute('dir', 'ltr');
+            document.documentElement.setAttribute('lang', 'en');
+            document.body.classList.add('en-mode');
+        }
+        updateLanguageUI();
+
+        window.openCompanyModal = openCompanyModal;
+        window.closeModal = closeModal;
+    </script>
+</body>
+</html>

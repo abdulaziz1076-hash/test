@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>الخدمات العامة | سوق المشاريع</title>
+    
+    <!-- SEO -->
+    <meta name="description" content="خدمات مجانية لأصحاب المشاريع المنزلية في الإمارات: مولد QR Code احترافي، مقالات إرشادية، وأدوات دعم المشاريع.">
+    <meta name="keywords" content="خدمات المشاريع, مولد QR, مقالات إرشادية, مشاريع منزلية, الامارات">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=El+Messiri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="app-header">
+    <div class="header-container">
+        <div class="logo-section" onclick="window.location.href='index.html'">
+            <div class="logo-icon">
+                <img src="images/logo.png" alt="سوق المشاريع" onerror="this.src='https://placehold.co/60x60/0F3D2E/white?text=SM'">
+            </div>
+            <div class="logo-text">
+                <h1 id="siteTitle">سوق المشاريع</h1>
+                <p id="siteSubtitle">المشاريع في الامارات</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="lang-toggle" id="langToggleBtn">
+                <i class="fas fa-globe"></i>
+                <span id="langBtnText">English</span>
+            </div>
+            <div class="menu-toggle" id="menuToggleBtn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-menu" id="navMenu">
+    <div class="nav-item" onclick="window.location.href='index.html'">
+        <i class="fas fa-home"></i>
+        <span id="navHome">الرئيسية</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='index.html#projects/emirate/all'">
+        <i class="fas fa-store"></i>
+        <span id="navMarket">السوق</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='index.html#/favorites'"><i class="fas fa-heart"></i><span id="navFavorites">المفضلة</span></div>
+    <div class="nav-item" onclick="window.location.href='services.html'">
+        <i class="fas fa-cogs"></i>
+        <span id="navServices">الخدمات العامة</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='registerr.html'">
+        <i class="fas fa-user-plus"></i>
+        <span id="navRegister">تسجيل مشروع</span>
+    </div>
+</div>
+</header>
+
+<div class="services-container">
+    <!-- عنوان الصفحة مثل Delivery.html -->
+    <div class="page-header">
+        <a href="index.html" class="back-button"><i class="fas fa-arrow-right"></i></a>
+        <h1 id="heroTitle">الخدمات العامةخدمات المشاريع</h1>
+        <p class="page-subtitle" id="heroSubtitle">أدوات مجانية لدعم مشروعك المنزلي في الإمارات</p>
+    </div>
+
+    <div class="services-grid">
+        <!-- خدمة 1: مولد QR Code -->
+        <div class="service-card" onclick="window.location.href='qrcoud.html'">
+            <div class="service-icon"><i class="fas fa-qrcode"></i></div>
+            <h3 id="service1Title">مولد QR Code</h3>
+            <p id="service1Desc">أنشئ رمز QR احترافي لمشروعك مع إضافة شعارك وتخصيص الألوان</p>
+        </div>
+
+        <!-- خدمة 2: المقالات الإرشادية -->
+        <div class="service-card" onclick="window.location.href='articles.html'">
+            <div class="service-icon"><i class="fas fa-newspaper"></i></div>
+            <h3 id="service2Title">مركز المعرفة </h3>
+            <p id="service2Desc">دليلك للتراخيص، الجهات الحكومية، وأفضل الممارسات لنجاح مشروعك</p>
+        </div>
+
+        <!-- خدمة 3: شركات التوصيل (معدلة: شفافة + تراكب "قيد التجهيز" ولا ترسل لأي مكان) -->
+        <div class="service-card" onclick="window.location.href='div.html'">
+            <div class="service-icon"><i class="fas fa-truck"></i></div>
+            <h3 id="service3Title">شركات التوصيل</h3>
+            <p id="service3Desc">دليل شركات التوصيل المعتمدة في الإمارات لشحن منتجاتك بأفضل الأسعار</p>
+        </div>
+    </div>
+</div>
+
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-logo" id="footerLogo">سوق المشاريع</div>
+        <p style="font-size: 11px; opacity: 0.9; margin-bottom: 15px;" id="footerText">منصة المشاريع الإماراتية</p>
+
+        <div id="footerKeywords" style="font-size: 10px; color: #aaa; margin-top: 15px; text-align: center; direction: rtl;">
+            سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة
+        </div>
+        
+        <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; flex-wrap: wrap;">
+            <a href="privacy.html" style="color: var(--secondary); text-decoration: none; font-size: 12px;">
+                <i class="fas fa-lock"></i>
+                <span id="privacyLink">سياسة الخصوصية</span>
+            </a>
+            <span style="color: var(--gray);">|</span>
+            <a href="terms.html" style="color: var(--secondary); text-decoration: none; font-size: 12px;">
+                <i class="fas fa-file-contract"></i>
+                <span id="termsLink">شروط الاستخدام</span>
+            </a>
+        </div>
+        
+        <div class="copyright" id="copyright">
+            © 2026 سوق المشاريع - جميع الحقوق محفوظة
+        </div>
+    </div>
+</footer>
+
+<script>
+    let currentLang = 'ar';
+
+function updateLanguage() {
+    const t = currentLang === 'ar' ? {
+        heroTitle: "الخدمات العامة",
+        heroSubtitle: "أدوات مجانية لدعم مشروعك المنزلي في الإمارات",
+        service1Title: "مولد QR Code",
+        service1Desc: "أنشئ رمز QR احترافي لمشروعك مع إضافة شعارك وتخصيص الألوان",
+        service2Title: "مركز المعرفة",
+        service2Desc: "دليلك للتراخيص، الجهات الحكومية، وأفضل الممارسات لنجاح مشروعك",
+        service3Title: "شركات التوصيل",
+        service3Desc: "دليل شركات التوصيل المعتمدة في الإمارات لشحن منتجاتك بأفضل الأسعار",
+        siteTitle: "سوق المشاريع",
+        siteSubtitle: "المشاريع في الامارات",
+        footerLogo: "سوق المشاريع",
+        footerText: "منصة المشاريع الإماراتية",
+        privacyLink: "سياسة الخصوصية",
+        termsLink: "شروط الاستخدام",
+        copyright: "© 2026 سوق المشاريع - جميع الحقوق محفوظة",
+        preparing: "قيد التطوير",
+        navHome: "الرئيسية",
+        navMarket: "السوق",
+        navServices: "الخدمات العامة",
+        navRegister: "تسجيل مشروع"
+    } : {
+        heroTitle: "Services",
+        heroSubtitle: "Free tools to support your home-based project in the UAE",
+        service1Title: "QR Code Generator",
+        service1Desc: "Create a professional QR code for your project with your logo and custom colors",
+        service2Title: "Knowledge Center",
+        service2Desc: "Your guide to licenses, government entities, and best practices",
+        service3Title: "Delivery Companies",
+        service3Desc: "Directory of approved delivery companies in the UAE",
+        siteTitle: "Souq Almasharie",
+        siteSubtitle: "Projects in UAE",
+        footerLogo: "Souq Almasharie",
+        footerText: "UAE Home-Based Business Platform",
+        privacyLink: "Privacy Policy",
+        termsLink: "Terms of Use",
+        copyright: "© 2026 Souq Almasharie - All Rights Reserved",
+        preparing: "Under Preparation",
+        navHome: "Home",
+        navMarket: "Market",
+        navServices: "Services",
+        navRegister: "Register Project"
+    };
+    
+    // تحديث عناصر الصفحة
+    const elements = ['heroTitle', 'heroSubtitle', 'service1Title', 'service1Desc', 'service2Title', 'service2Desc', 'service3Title', 'service3Desc', 'siteTitle', 'siteSubtitle', 'footerLogo', 'footerText', 'privacyLink', 'termsLink'];
+    elements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && t[id]) el.innerText = t[id];
+    });
+    
+    document.getElementById('copyright').innerHTML = t.copyright;
+    
+    // ✅ تحديث القائمة
+    const navHome = document.getElementById('navHome');
+    const navMarket = document.getElementById('navMarket');
+    const navServices = document.getElementById('navServices');
+    const navRegister = document.getElementById('navRegister');
+    if (navHome) navHome.innerText = t.navHome;
+    if (navMarket) navMarket.innerText = t.navMarket;
+    if (navServices) navServices.innerText = t.navServices;
+    if (navRegister) navRegister.innerText = t.navRegister;
+    
+    // تحديث الفوتر
+    const footerKeywords = document.getElementById('footerKeywords');
+    if (footerKeywords) {
+        footerKeywords.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
+        footerKeywords.innerText = currentLang === 'ar' 
+            ? "سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة"
+            : "Souq Almasharie | Home Projects Platform in UAE | Productive Families Directory";
+    }
+    
+    const preparingSpan = document.getElementById('preparingText');
+    if (preparingSpan) preparingSpan.innerText = t.preparing;
+}
+function toggleLanguage() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    // ✅ استخدام نفس المفتاح المستخدم في index.html
+    localStorage.setItem('projectSouqLang', currentLang);
+    
+    document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('lang', currentLang === 'ar' ? 'ar' : 'en');
+    
+    if (currentLang === 'en') {
+        document.body.classList.add('en-mode');
+    } else {
+        document.body.classList.remove('en-mode');
+    }
+    
+    document.getElementById('langBtnText').innerText = currentLang === 'ar' ? 'English' : 'عربي';
+    updateLanguage();
+}
+
+    document.getElementById('langToggleBtn').addEventListener('click', toggleLanguage);
+    document.getElementById('menuToggleBtn').addEventListener('click', () => {
+        document.getElementById('navMenu').classList.toggle('active');
+    });
+    
+    document.addEventListener('click', (event) => {
+        const menu = document.getElementById('navMenu');
+        const btn = document.getElementById('menuToggleBtn');
+        if (menu && menu.classList.contains('active') && !menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.remove('active');
+        }
+    });
+
+    const savedLang = localStorage.getItem('projectSouqLang');
+if (savedLang === 'en') {
+    currentLang = 'en';
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+    document.body.classList.add('en-mode');
+    document.getElementById('langBtnText').innerText = 'عربي';
+} else {
+    currentLang = 'ar';
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+    document.body.classList.remove('en-mode');
+    document.getElementById('langBtnText').innerText = 'English';
+}
+updateLanguage();
+</script>
+</body>
+</html>
