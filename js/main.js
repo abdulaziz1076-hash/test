@@ -24,7 +24,7 @@ const appState = {
     currentZoomImages: [],
     currentZoomIndex: 0
 };
-
+console.log("main.js is loaded successfully");
 // ==================== Helper: Build Sell Points ====================
 function buildSellPoints(contact) {
     const points = [];
