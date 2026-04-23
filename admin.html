@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <!-- CSP meta to allow eval for Chart.js and other libs -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src * data:; connect-src *;">
     <title>لوحة تحكم المشرف | سوق المشاريع</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -298,7 +300,9 @@
     <div style="background:white; border-radius:48px; padding:40px; width:100%; max-width:400px; text-align:center;">
         <i class="fas fa-chalkboard-user" style="font-size:56px; color:#D4AF37; margin-bottom:16px;"></i>
         <h2 style="color:#0F3D2E;">دخول المشرف</h2>
-        <input type="email" id="adminEmail" placeholder="البريد الإلكتروني" value="abdulaziz1076@gmail.com" style="width:100%; padding:14px; margin:15px 0; border-radius:40px; border:1px solid #ccc;">
+        <label for="adminEmail" style="display:block; text-align:right; margin-bottom:5px; font-weight:600;">البريد الإلكتروني</label>
+        <input type="email" id="adminEmail" placeholder="البريد الإلكتروني" value="abdulaziz1076@gmail.com" style="width:100%; padding:14px; margin:0 0 15px 0; border-radius:40px; border:1px solid #ccc;">
+        <label for="adminPassword" style="display:block; text-align:right; margin-bottom:5px; font-weight:600;">كلمة المرور</label>
         <input type="password" id="adminPassword" placeholder="كلمة المرور" style="width:100%; padding:14px; margin-bottom:20px; border-radius:40px; border:1px solid #ccc;">
         <button id="loginBtn" style="background:#0F3D2E; color:white; width:100%; padding:14px; border-radius:40px; font-weight:bold; border:none;">دخول <i class="fas fa-arrow-left"></i></button>
         <div id="loginError" style="color:#dc2626; margin-top:12px;"></div>
@@ -324,7 +328,6 @@
             <button class="tab-btn" data-tab="feedbacks"><i class="fas fa-comment-dots"></i> الشكاوى</button>
         </div>
 
-        <!-- Dashboard -->
         <div id="dashboardTab" class="content-card active">
             <div class="analytics-grid">
                 <div class="analytics-card"><h3><i class="fas fa-chart-line"></i> إجمالي الزيارات (30 يوم)</h3><div class="chart-container"><canvas id="visitsChart"></canvas></div></div>
@@ -373,14 +376,14 @@
     </div>
 </div>
 
-<!-- المودالات -->
-<div id="projectModal" class="modal"><div class="modal-content"><div class="modal-header"><h3 id="projectModalTitle">مشروع</h3><button class="modal-close" data-modal="projectModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="projectForm"><input type="hidden" id="projectId"><div class="form-row"><label>الاسم (عربي)</label><input id="projectNameAr" required></div><div class="form-row"><label>الاسم (إنجليزي)</label><input id="projectNameEn" required></div><div class="form-row"><label>الإمارة</label><select id="projectEmirate"><option>أبوظبي</option><option>دبي</option><option>الشارقة</option><option>عجمان</option><option>رأس الخيمة</option><option>الفجيرة</option><option>أم القيوين</option></select></div><div class="form-row"><label>التصنيف (عربي)</label><input id="projectCategoryAr"></div><div class="form-row"><label>الوصف القصير (عربي)</label><textarea id="projectDescAr" rows="2"></textarea></div><div class="form-row"><label>الصورة (URL)</label><input id="projectImage"></div><div class="checkbox-row"><input type="checkbox" id="projectLicense"><label>رخصة أدريا</label></div><div class="form-row"><label>الحالة</label><select id="projectStatus"><option value="pending">معلق</option><option value="approved">موافق</option><option value="rejected">مرفوض</option></select></div><button class="btn-save">حفظ</button></form></div></div></div>
+<!-- مودالات -->
+<div id="projectModal" class="modal"><div class="modal-content"><div class="modal-header"><h3 id="projectModalTitle">مشروع</h3><button class="modal-close" data-modal="projectModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="projectForm"><input type="hidden" id="projectId"><div class="form-row"><label for="projectNameAr">الاسم (عربي)</label><input id="projectNameAr" required></div><div class="form-row"><label for="projectNameEn">الاسم (إنجليزي)</label><input id="projectNameEn" required></div><div class="form-row"><label for="projectEmirate">الإمارة</label><select id="projectEmirate"><option>أبوظبي</option><option>دبي</option><option>الشارقة</option><option>عجمان</option><option>رأس الخيمة</option><option>الفجيرة</option><option>أم القيوين</option></select></div><div class="form-row"><label for="projectCategoryAr">التصنيف (عربي)</label><input id="projectCategoryAr"></div><div class="form-row"><label for="projectDescAr">الوصف القصير (عربي)</label><textarea id="projectDescAr" rows="2"></textarea></div><div class="form-row"><label for="projectImage">الصورة (URL)</label><input id="projectImage"></div><div class="checkbox-row"><input type="checkbox" id="projectLicense"><label for="projectLicense">رخصة أدريا</label></div><div class="form-row"><label for="projectStatus">الحالة</label><select id="projectStatus"><option value="pending">معلق</option><option value="approved">موافق</option><option value="rejected">مرفوض</option></select></div><button class="btn-save">حفظ</button></form></div></div></div>
 
-<div id="productModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>منتج</h3><button class="modal-close" data-modal="productModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="productForm"><input type="hidden" id="productId"><input type="hidden" id="productProjectId"><div class="form-row"><label>الاسم (عربي)</label><input id="productNameAr" required></div><div class="form-row"><label>الاسم (إنجليزي)</label><input id="productNameEn" required></div><div class="form-row"><label>الصورة الرئيسية (URL)</label><input id="productMainImage"></div><div class="form-row"><label>صور إضافية (فاصلة)</label><input id="productImages" placeholder="url1,url2"></div><div class="form-row"><label>التفاصيل (عربي - سطر لكل تفصيل)</label><textarea id="productDetailsAr" rows="3"></textarea></div><button class="btn-save">حفظ</button></form></div></div></div>
+<div id="productModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>منتج</h3><button class="modal-close" data-modal="productModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="productForm"><input type="hidden" id="productId"><input type="hidden" id="productProjectId"><div class="form-row"><label for="productNameAr">الاسم (عربي)</label><input id="productNameAr" required></div><div class="form-row"><label for="productNameEn">الاسم (إنجليزي)</label><input id="productNameEn" required></div><div class="form-row"><label for="productMainImage">الصورة الرئيسية (URL)</label><input id="productMainImage"></div><div class="form-row"><label for="productImages">صور إضافية (فاصلة)</label><input id="productImages" placeholder="url1,url2"></div><div class="form-row"><label for="productDetailsAr">التفاصيل (عربي - سطر لكل تفصيل)</label><textarea id="productDetailsAr" rows="3"></textarea></div><button class="btn-save">حفظ</button></form></div></div></div>
 
-<div id="dealModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>عرض</h3><button class="modal-close" data-modal="dealModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="dealForm"><input type="hidden" id="dealId"><input type="hidden" id="dealProjectId"><div class="form-row"><label>العنوان (عربي)</label><input id="dealTitleAr" required></div><div class="form-row"><label>العنوان (إنجليزي)</label><input id="dealTitleEn" required></div><div class="form-row"><label>الصورة (URL)</label><input id="dealImage"></div><div class="form-row"><label>الوصف (عربي)</label><textarea id="dealDescAr" rows="2"></textarea></div><button class="btn-save">حفظ</button></form></div></div></div>
+<div id="dealModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>عرض</h3><button class="modal-close" data-modal="dealModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="dealForm"><input type="hidden" id="dealId"><input type="hidden" id="dealProjectId"><div class="form-row"><label for="dealTitleAr">العنوان (عربي)</label><input id="dealTitleAr" required></div><div class="form-row"><label for="dealTitleEn">العنوان (إنجليزي)</label><input id="dealTitleEn" required></div><div class="form-row"><label for="dealImage">الصورة (URL)</label><input id="dealImage"></div><div class="form-row"><label for="dealDescAr">الوصف (عربي)</label><textarea id="dealDescAr" rows="2"></textarea></div><button class="btn-save">حفظ</button></form></div></div></div>
 
-<div id="contactModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>بيانات التواصل</h3><button class="modal-close" data-modal="contactModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="contactForm"><input type="hidden" id="contactProjectId"><div class="form-row"><label>واتساب</label><input id="contactWhatsapp"></div><div class="form-row"><label>هاتف</label><input id="contactPhone"></div><div class="form-row"><label>بريد إلكتروني</label><input id="contactEmail"></div><div class="form-row"><label>إنستغرام</label><input id="contactInstagram"></div><button class="btn-save">حفظ</button></form></div></div></div>
+<div id="contactModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>بيانات التواصل</h3><button class="modal-close" data-modal="contactModal"><i class="fas fa-times"></i></button></div><div class="modal-body"><form id="contactForm"><input type="hidden" id="contactProjectId"><div class="form-row"><label for="contactWhatsapp">واتساب</label><input id="contactWhatsapp"></div><div class="form-row"><label for="contactPhone">هاتف</label><input id="contactPhone"></div><div class="form-row"><label for="contactEmail">بريد إلكتروني</label><input id="contactEmail"></div><div class="form-row"><label for="contactInstagram">إنستغرام</label><input id="contactInstagram"></div><button class="btn-save">حفظ</button></form></div></div></div>
 
 <div id="toastMsg" class="toast"></div>
 
@@ -399,21 +402,21 @@
         setTimeout(() => toast.style.display = 'none', 3000);
     }
 
-    // تحميل الإحصائيات الأساسية
     async function loadStats() {
-        const { count: projectsCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
-        const { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
-        const { count: feedbacksCount } = await supabase.from('feedbacks').select('*', { count: 'exact', head: true });
-        const { count: pendingRegs } = await supabase.from('project_registrations').select('*', { count: 'exact', head: true }).eq('status', 'pending');
-        document.getElementById('statsContainer').innerHTML = `
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-store"></i></div><div class="stat-number">${projectsCount||0}</div><div class="stat-label">المشاريع</div></div>
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-number">${productsCount||0}</div><div class="stat-label">المنتجات</div></div>
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-clipboard-list"></i></div><div class="stat-number">${pendingRegs||0}</div><div class="stat-label">طلبات معلقة</div></div>
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-comment-dots"></i></div><div class="stat-number">${feedbacksCount||0}</div><div class="stat-label">الشكاوى</div></div>
-        `;
+        try {
+            const { count: projectsCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
+            const { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
+            const { count: feedbacksCount } = await supabase.from('feedbacks').select('*', { count: 'exact', head: true });
+            const { count: pendingRegs } = await supabase.from('project_registrations').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+            document.getElementById('statsContainer').innerHTML = `
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-store"></i></div><div class="stat-number">${projectsCount||0}</div><div class="stat-label">المشاريع</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-number">${productsCount||0}</div><div class="stat-label">المنتجات</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-clipboard-list"></i></div><div class="stat-number">${pendingRegs||0}</div><div class="stat-label">طلبات معلقة</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-comment-dots"></i></div><div class="stat-number">${feedbacksCount||0}</div><div class="stat-label">الشكاوى</div></div>
+            `;
+        } catch(e) { console.error(e); showToast('خطأ في تحميل الإحصائيات', true); }
     }
 
-    // تحميل طلبات التسجيل
     async function loadRegistrations() {
         const status = document.getElementById('regStatusFilter').value;
         let query = supabase.from('project_registrations').select('*').order('created_at', { ascending: false });
@@ -446,7 +449,6 @@
         else { showToast(`تم تغيير الحالة إلى ${newStatus}`); loadRegistrations(); loadStats(); }
     };
 
-    // المشاريع
     async function loadProjects() {
         let query = supabase.from('projects').select('*').order('id', { ascending: false });
         const search = document.getElementById('projectSearch').value;
@@ -510,7 +512,6 @@
         }
     };
 
-    // المنتجات
     async function loadProducts() {
         const projectId = document.getElementById('productProjectFilter').value;
         if (!projectId) { document.getElementById('productsTableContainer').innerHTML = '<p>اختر مشروعاً أولاً</p>'; return; }
@@ -558,7 +559,6 @@
         else { showToast('تم الحفظ'); document.getElementById('productModal').classList.remove('active'); loadProducts(); loadStats(); }
     });
 
-    // العروض
     async function loadDeals() {
         const projectId = document.getElementById('dealProjectFilter').value;
         if (!projectId) { document.getElementById('dealsTableContainer').innerHTML = '<p>اختر مشروعاً</p>'; return; }
@@ -602,7 +602,6 @@
         else { showToast('تم الحفظ'); document.getElementById('dealModal').classList.remove('active'); loadDeals(); loadStats(); }
     });
 
-    // جهات الاتصال
     async function loadContacts() {
         const projectId = document.getElementById('contactProjectFilter').value;
         if (!projectId) { document.getElementById('contactsTableContainer').innerHTML = '<p>اختر مشروعاً</p>'; return; }
@@ -610,10 +609,10 @@
         if (error && error.code !== 'PGRST116') { showToast(error.message, true); return; }
         if (!data || data.length === 0) data = [{ project_id: projectId, whatsapp: '', phone: '', email: '', instagram: '' }];
         const contact = data[0];
-        let html = `<div class="contact-edit-form"><div class="form-row"><label>واتساب</label><input id="editWhatsapp" value="${contact.whatsapp || ''}"></div>
-        <div class="form-row"><label>هاتف</label><input id="editPhone" value="${contact.phone || ''}"></div>
-        <div class="form-row"><label>بريد</label><input id="editEmail" value="${contact.email || ''}"></div>
-        <div class="form-row"><label>إنستغرام</label><input id="editInstagram" value="${contact.instagram || ''}"></div>
+        let html = `<div class="contact-edit-form"><div class="form-row"><label for="editWhatsapp">واتساب</label><input id="editWhatsapp" value="${contact.whatsapp || ''}"></div>
+        <div class="form-row"><label for="editPhone">هاتف</label><input id="editPhone" value="${contact.phone || ''}"></div>
+        <div class="form-row"><label for="editEmail">بريد</label><input id="editEmail" value="${contact.email || ''}"></div>
+        <div class="form-row"><label for="editInstagram">إنستغرام</label><input id="editInstagram" value="${contact.instagram || ''}"></div>
         <button id="saveContactBtn" class="btn-save">حفظ التغييرات</button></div>`;
         document.getElementById('contactsTableContainer').innerHTML = html;
         document.getElementById('saveContactBtn').onclick = async () => {
@@ -629,7 +628,6 @@
         };
     }
 
-    // الشكاوى
     async function loadFeedbacks() {
         const status = document.getElementById('feedbackStatusFilter').value;
         let query = supabase.from('feedbacks').select('*').order('created_at', { ascending: false });
@@ -649,7 +647,6 @@
         if (error) showToast(error.message, true); else { showToast('تم التحديث'); loadFeedbacks(); }
     };
 
-    // تحليلات
     async function loadAnalytics() {
         const { data: events, error } = await supabase.from('analytics_events').select('*').order('created_at', { ascending: false }).limit(50);
         if (error && error.code !== '42P01') console.warn(error);
@@ -658,10 +655,13 @@
         if (charts.visitsChart) charts.visitsChart.destroy();
         charts.visitsChart = new Chart(ctx, { type: 'line', data: { labels: ['أسبوع 1','أسبوع 2','أسبوع 3','أسبوع 4'], datasets: [{ label: 'الزيارات', data: [visitsData*0.2, visitsData*0.3, visitsData*0.25, visitsData*0.25], borderColor: '#D4AF37' }] } });
         const sourcesCtx = document.getElementById('sourcesChart').getContext('2d');
+        if (charts.sourcesChart) charts.sourcesChart.destroy();
         charts.sourcesChart = new Chart(sourcesCtx, { type: 'doughnut', data: { labels: ['مباشر','جوجل','مواقع التواصل'], datasets: [{ data: [50,30,20], backgroundColor: ['#0F3D2E','#1A5F44','#D4AF37'] }] } });
         const devicesCtx = document.getElementById('devicesChart').getContext('2d');
+        if (charts.devicesChart) charts.devicesChart.destroy();
         charts.devicesChart = new Chart(devicesCtx, { type: 'bar', data: { labels: ['جوال','حاسوب','تابلت'], datasets: [{ label: 'النسبة', data: [68,25,7], backgroundColor: '#0F3D2E' }] } });
         const geoCtx = document.getElementById('geoChart').getContext('2d');
+        if (charts.geoChart) charts.geoChart.destroy();
         charts.geoChart = new Chart(geoCtx, { type: 'pie', data: { labels: ['دبي','أبوظبي','الشارقة'], datasets: [{ data: [45,28,15], backgroundColor: ['#D4AF37','#1A5F44','#0F3D2E'] }] } });
         const tbody = document.querySelector('#recentVisitsTable tbody');
         tbody.innerHTML = '';
@@ -670,7 +670,6 @@
         });
     }
 
-    // فلتر الإمارات ديناميكي
     async function initEmirateFilter() {
         const { data } = await supabase.from('projects').select('emirate');
         const unique = [...new Set((data||[]).map(p=>p.emirate).filter(Boolean))];
@@ -691,43 +690,51 @@
         fillSelect('contactProjectFilter');
     }
 
-    // تسجيل الدخول
     async function performLogin(email, pwd) {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
-        if (error || data.user.email !== ALLOWED_EMAIL) { document.getElementById('loginError').innerText = 'بيانات غير صحيحة'; return; }
-        localStorage.setItem('adminSession', 'true');
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('adminContent').style.display = 'block';
-        await initEmirateFilter();
-        await initProjectSelects();
-        await loadStats();
-        await loadProjects();
-        await loadAnalytics();
-        loadRegistrations();
-        loadProducts();
-        loadDeals();
-        loadContacts();
-        loadFeedbacks();
-        attachTabEvents();
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
+            if (error) throw error;
+            if (data.user.email !== ALLOWED_EMAIL) throw new Error('غير مصرح بهذا الحساب');
+            localStorage.setItem('adminSession', 'true');
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            await initEmirateFilter();
+            await initProjectSelects();
+            await loadStats();
+            await loadProjects();
+            await loadAnalytics();
+            loadRegistrations();
+            loadProducts();
+            loadDeals();
+            loadContacts();
+            loadFeedbacks();
+            attachTabEvents();
+        } catch (err) {
+            console.error(err);
+            document.getElementById('loginError').innerText = err.message || 'فشل تسجيل الدخول';
+        }
     }
 
     function attachTabEvents() {
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-                btn.classList.add('active');
-                document.querySelectorAll('.content-card').forEach(c=>c.classList.remove('active'));
-                const tabId = btn.dataset.tab + 'Tab';
-                document.getElementById(tabId).classList.add('active');
-                if (btn.dataset.tab === 'projects') loadProjects();
-                else if (btn.dataset.tab === 'products') loadProducts();
-                else if (btn.dataset.tab === 'deals') loadDeals();
-                else if (btn.dataset.tab === 'contacts') loadContacts();
-                else if (btn.dataset.tab === 'feedbacks') loadFeedbacks();
-                else if (btn.dataset.tab === 'dashboard') loadAnalytics();
-                else if (btn.dataset.tab === 'registrations') loadRegistrations();
-            });
+            btn.removeEventListener('click', tabClickHandler);
+            btn.addEventListener('click', tabClickHandler);
         });
+    }
+    function tabClickHandler(e) {
+        const btn = e.currentTarget;
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.content-card').forEach(c=>c.classList.remove('active'));
+        const tabId = btn.dataset.tab + 'Tab';
+        document.getElementById(tabId).classList.add('active');
+        if (btn.dataset.tab === 'projects') loadProjects();
+        else if (btn.dataset.tab === 'products') loadProducts();
+        else if (btn.dataset.tab === 'deals') loadDeals();
+        else if (btn.dataset.tab === 'contacts') loadContacts();
+        else if (btn.dataset.tab === 'feedbacks') loadFeedbacks();
+        else if (btn.dataset.tab === 'dashboard') loadAnalytics();
+        else if (btn.dataset.tab === 'registrations') loadRegistrations();
     }
 
     document.getElementById('loginBtn').onclick = () => performLogin(document.getElementById('adminEmail').value, document.getElementById('adminPassword').value);
