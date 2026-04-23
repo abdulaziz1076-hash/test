@@ -161,8 +161,8 @@
     <h1 id="pageTitle">📋 سجل مشروعك الآن</h1>
     <div class="sub" id="subText">العرض لفترة محدودة وعدد محدود من المشاريع - اغتنم الفرصة</div>
 
-    <div class="success" id="successMsg">✅ تم استلام طلبك! سنقوم بالتواصل معك خلال 24 ساعة.</div>
-    <div class="loading" id="loadingMsg"><i class="fas fa-spinner"></i> <span id="loadingText">جاري إرسال الطلب...</span></div>
+    <div class="success" id="successMsg" style="display: none;">✅ تم استلام طلبك! سنقوم بالتواصل معك خلال 24 ساعة.</div>
+    <div class="loading" id="loadingMsg" style="display: none;"><i class="fas fa-spinner"></i> <span id="loadingText">جاري إرسال الطلب...</span></div>
 
     <form id="registerForm">
         <div class="form-group">
@@ -279,7 +279,12 @@
     </div>
 </footer>
 
-<script>
+<script type="module">
+    // استيراد Supabase من config.js الموجود في مجلد js (نفس مسار الموقع الأصلي)
+    import { APP_CONFIG } from './js/config.js';
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const supabase = createClient(APP_CONFIG.supabaseUrl, APP_CONFIG.supabaseAnonKey);
+    
     // ---- بيانات الترجمة (نموذج واحد) ----
     const translations = {
         ar: {
@@ -485,8 +490,18 @@
         }
     });
     
-    // إرسال النموذج
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzvbgne';
+    // الحصول على عنوان IP للعميل
+    async function getClientIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            return 'غير متاح';
+        }
+    }
+    
+    // إرسال النموذج إلى Supabase
     const form = document.getElementById('registerForm');
     const thankyouModal = document.getElementById('thankyouModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -494,6 +509,7 @@
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        // التحقق من صحة رقم الواتساب
         const whatsapp = document.getElementById('whatsapp').value;
         if (!/^[0-9]{9,15}$/.test(whatsapp.replace(/[^0-9]/g, ''))) {
             document.getElementById('whatsappError').style.display = 'block';
@@ -506,51 +522,62 @@
             return;
         }
         
-        const formData = {
-            projectName: document.getElementById('projectName').value,
-            emirate: document.getElementById('emirate').value,
-            whatsapp: whatsapp,
-            instagram: document.getElementById('instagram').value || (currentLang === 'ar' ? 'غير مذكور' : 'Not provided'),
-            category: document.getElementById('category').value,
-            description: document.getElementById('description').value || (currentLang === 'ar' ? 'لا يوجد وصف' : 'No description'),
-            consent: currentLang === 'ar' ? 'نعم' : 'Yes',
-            date: new Date().toISOString(),
-            ip: await getClientIP()
-        };
-        
         const submitBtn = document.getElementById('submitBtn');
         const loadingDiv = document.getElementById('loadingMsg');
         submitBtn.disabled = true;
         loadingDiv.style.display = 'block';
         
-        // حفظ في localStorage
-        let registrations = JSON.parse(localStorage.getItem('projectRegistrations') || '[]');
-        registrations.push(formData);
-        localStorage.setItem('projectRegistrations', JSON.stringify(registrations));
+        // جمع البيانات
+        const projectName = document.getElementById('projectName').value;
+        const emirate = document.getElementById('emirate').value;
+        const instagram = document.getElementById('instagram').value.trim();
+        const category = document.getElementById('category').value;
+        const description = document.getElementById('description').value.trim();
+        const ip = await getClientIP();
+        
+        const record = {
+            project_name: projectName,
+            emirate: emirate,
+            whatsapp: whatsapp,
+            instagram: instagram || null,
+            category: category,
+            description: description || null,
+            ip: ip,
+            created_at: new Date().toISOString(),
+            status: 'pending'
+        };
         
         try {
-            const response = await fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(formData)
-            });
+            // إرسال البيانات إلى Supabase
+            const { data, error } = await supabase
+                .from('project_registrations')
+                .insert([record])
+                .select();
+            
+            if (error) throw error;
+            
+            // حفظ نسخة احتياطية في localStorage
+            let registrations = JSON.parse(localStorage.getItem('projectRegistrations') || '[]');
+            registrations.push({ ...record, synced: true });
+            localStorage.setItem('projectRegistrations', JSON.stringify(registrations));
+            
             loadingDiv.style.display = 'none';
-            if (response.ok) {
-                // إظهار المودال بدلاً من الانتقال
-                thankyouModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                // إعادة تعيين النموذج
-                form.reset();
-            } else {
-                alert(currentLang === 'ar' ? 'حدث خطأ في إرسال الطلب. سيتم حفظ بياناتك محلياً وسنتواصل معك قريباً.' : 'There was an error sending your request. Your data has been saved locally and we will contact you soon.');
-                thankyouModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        } catch (error) {
-            loadingDiv.style.display = 'none';
-            alert(currentLang === 'ar' ? 'خطأ في الشبكة. تم حفظ طلبك وسنتواصل معك قريباً.' : 'Network error. Your request has been saved and we will contact you soon.');
+            // إظهار مودال الشكر
             thankyouModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            // إعادة تعيين النموذج
+            form.reset();
+        } catch (err) {
+            console.error('Supabase insert error:', err);
+            loadingDiv.style.display = 'none';
+            // حفظ محلياً في حالة فشل الاتصال
+            let registrations = JSON.parse(localStorage.getItem('projectRegistrations') || '[]');
+            registrations.push({ ...record, synced: false });
+            localStorage.setItem('projectRegistrations', JSON.stringify(registrations));
+            // إظهار المودال مع رسالة نجاح مؤقتة (تم الحفظ محلياً)
+            thankyouModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            form.reset();
         } finally {
             submitBtn.disabled = false;
         }
@@ -568,16 +595,6 @@
             document.body.style.overflow = '';
         }
     });
-    
-    async function getClientIP() {
-        try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
-        } catch (error) {
-            return 'غير متاح';
-        }
-    }
     
     updateUI();
 </script>
