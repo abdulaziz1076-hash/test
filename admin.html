@@ -367,7 +367,6 @@
 
         <div class="tabs-container">
             <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-chart-pie"></i> لوحة التحليلات</button>
-            <button class="tab-btn" data-tab="registrations"><i class="fas fa-clipboard-list"></i> طلبات التسجيل</button>
             <button class="tab-btn" data-tab="projects"><i class="fas fa-store"></i> المشاريع</button>
             <button class="tab-btn" data-tab="products"><i class="fas fa-box"></i> المنتجات</button>
             <button class="tab-btn" data-tab="deals"><i class="fas fa-tags"></i> العروض</button>
@@ -405,19 +404,6 @@
                 </div>
                 <button class="export-btn" id="exportAnalyticsBtn"><i class="fas fa-download"></i> تصدير البيانات (CSV)</button>
             </div>
-        </div>
-
-        <div id="registrationsTab" class="content-card" style="display:none;">
-            <div class="filter-bar">
-                <select id="regStatusFilter">
-                    <option value="all">كل الحالات</option>
-                    <option value="pending">معلق</option>
-                    <option value="approved">موافق</option>
-                    <option value="rejected">مرفوض</option>
-                </select>
-                <button id="refreshRegistrationsBtn"><i class="fas fa-sync-alt"></i> تحديث</button>
-            </div>
-            <div id="registrationsTableContainer"></div>
         </div>
 
         <!-- باقي التبويبات (مشاريع، منتجات، عروض، تواصل، شكاوى) -->
@@ -543,105 +529,6 @@
         // نرسل تنبيه للمطور
     }
 
-    // دالة تحميل طلبات التسجيل
-async function loadRegistrations() {
-    const statusFilter = document.getElementById('regStatusFilter').value;
-    let query = supabase.from('project_registrations').select('*').order('created_at', { ascending: false });
-    if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
-    }
-    const { data, error } = await query;
-    if (error) {
-        console.error(error);
-        document.getElementById('registrationsTableContainer').innerHTML = '<p>خطأ في تحميل البيانات</p>';
-        return;
-    }
-    if (!data || data.length === 0) {
-        document.getElementById('registrationsTableContainer').innerHTML = '<p>لا توجد طلبات تسجيل</p>';
-        return;
-    }
-    
-    let html = `<table class="data-table"><thead><tr>
-        <th>#</th><th>اسم المشروع</th><th>الإمارة</th><th>واتساب</th><th>التصنيف</th><th>الحالة</th><th>تاريخ التسجيل</th><th>إجراءات</th>
-    </tr></thead><tbody>`;
-    data.forEach(reg => {
-        const statusClass = reg.status === 'pending' ? 'badge-pending' : (reg.status === 'approved' ? 'badge-approved' : 'badge-rejected');
-        html += `<tr>
-            <td>${reg.id}</td>
-            <td>${escapeHtml(reg.project_name)}</td>
-            <td>${escapeHtml(reg.emirate)}</td>
-            <td>${escapeHtml(reg.whatsapp)}</td>
-            <td>${escapeHtml(reg.category)}</td>
-            <td><span class="${statusClass}">${reg.status === 'pending' ? 'معلق' : (reg.status === 'approved' ? 'موافق' : 'مرفوض')}</span></td>
-            <td>${new Date(reg.created_at).toLocaleString()}</td>
-            <td class="action-buttons">
-                <button class="action-btn approve" onclick="updateRegistrationStatus(${reg.id}, 'approved')" title="موافقة"><i class="fas fa-check-circle"></i></button>
-                <button class="action-btn reject" onclick="updateRegistrationStatus(${reg.id}, 'rejected')" title="رفض"><i class="fas fa-times-circle"></i></button>
-                <button class="action-btn delete" onclick="deleteRegistration(${reg.id})" title="حذف"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>`;
-    });
-    html += `</tbody></table>`;
-    document.getElementById('registrationsTableContainer').innerHTML = html;
-}
-
-// تحديث حالة الطلب
-window.updateRegistrationStatus = async (id, newStatus) => {
-    const { error } = await supabase.from('project_registrations').update({ status: newStatus }).eq('id', id);
-    if (error) showToast(error.message, true);
-    else {
-        showToast(`تم تغيير الحالة إلى ${newStatus === 'approved' ? 'موافق' : 'مرفوض'}`);
-        loadRegistrations();
-        loadStats(); // تحديث الإحصائيات
-    }
-};
-
-// حذف طلب
-window.deleteRegistration = async (id) => {
-    if (confirm('هل أنت متأكد من حذف هذا الطلب؟')) {
-        const { error } = await supabase.from('project_registrations').delete().eq('id', id);
-        if (error) showToast(error.message, true);
-        else {
-            showToast('تم الحذف');
-            loadRegistrations();
-            loadStats();
-        }
-    }
-};
-
-// دالة مساعدة لتجنب XSS
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
-}
-
-// تحديث الإحصائيات (إضافة عدد الطلبات المعلقة)
-async function loadStats() {
-    let { count: projectsCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
-    let { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
-    let { count: feedbacksCount } = await supabase.from('feedbacks').select('*', { count: 'exact', head: true });
-    let { count: pendingRegs } = await supabase.from('project_registrations').select('*', { count: 'exact', head: true }).eq('status', 'pending');
-    
-    document.getElementById('statsContainer').innerHTML = `
-        <div class="stat-card"><div class="stat-icon"><i class="fas fa-store"></i></div><div class="stat-number">${projectsCount||0}</div><div class="stat-label">المشاريع</div></div>
-        <div class="stat-card"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-number">${productsCount||0}</div><div class="stat-label">المنتجات</div></div>
-        <div class="stat-card"><div class="stat-icon"><i class="fas fa-clipboard-list"></i></div><div class="stat-number">${pendingRegs||0}</div><div class="stat-label">طلبات معلقة</div></div>
-        <div class="stat-card"><div class="stat-icon"><i class="fas fa-comment-dots"></i></div><div class="stat-number">${feedbacksCount||0}</div><div class="stat-label">الشكاوى</div></div>
-    `;
-}
-
-// ربط حدث refresh
-document.getElementById('refreshRegistrationsBtn').onclick = loadRegistrations;
-
-// عند تبديل التبويب، إذا كان التبويب registrations يتم تحميل البيانات
-// داخل مستمع التبويبات:
-if (btn.dataset.tab === 'registrations') loadRegistrations();
-
     // ========== إدارة المشاريع والمنتجات (مختصرة ولكن كاملة الوظائف) ==========
     async function loadProjects() {
         let query = supabase.from('projects').select('*');
@@ -700,6 +587,19 @@ if (btn.dataset.tab === 'registrations') loadRegistrations();
     window.editProduct = async (id) => { showToast('وظيفة التعديل متكاملة في الكود الكامل'); };
     window.deleteItem = async (table, id) => { if(confirm('حذف؟')) { let { error } = await supabase.from(table).delete().eq('id', id); if(error) showToast(error.message,true); else { showToast('تم الحذف'); location.reload(); } } };
 
+    // إحصائيات سريعة
+    async function loadStats() {
+        let { count: projectsCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
+        let { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
+        let { count: feedbacksCount } = await supabase.from('feedbacks').select('*', { count: 'exact', head: true });
+        document.getElementById('statsContainer').innerHTML = `
+            <div class="stat-card"><div class="stat-icon"><i class="fas fa-store"></i></div><div class="stat-number">${projectsCount||0}</div><div class="stat-label">المشاريع</div></div>
+            <div class="stat-card"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-number">${productsCount||0}</div><div class="stat-label">المنتجات</div></div>
+            <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-number">--</div><div class="stat-label">زيارات (آخر 30d)</div></div>
+            <div class="stat-card"><div class="stat-icon"><i class="fas fa-comment-dots"></i></div><div class="stat-number">${feedbacksCount||0}</div><div class="stat-label">الشكاوى</div></div>
+        `;
+    }
+
     // تهيئة الفلاتر
     async function initFilters() {
         let { data: projects } = await supabase.from('projects').select('id, name_ar');
@@ -717,11 +617,6 @@ if (btn.dataset.tab === 'registrations') loadRegistrations();
     async function performLogin(email, pwd) {
         let { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
         if(error || data.user.email !== ALLOWED_EMAIL) { document.getElementById('loginError').innerText = 'بيانات غير صحيحة أو غير مصرح به'; return; }
-        if(error) {
-          console.error(error);
-          document.getElementById('loginError').innerText = error.message;
-          return;
-        }
         localStorage.setItem('adminSession', 'true');
         document.getElementById('loginSection').style.display = 'none';
         document.getElementById('adminContent').style.display = 'block';
