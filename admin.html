@@ -543,6 +543,13 @@
         // نرسل تنبيه للمطور
     }
 
+    const { createClient } = supabase;
+const client = createClient(
+  'https://xyepcwptfihnztgghimx.supabase.co', 
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5ZXBjd3B0Zmlobnp0Z2doaW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0ODA2OTcsImV4cCI6MjA5MjA1NjY5N30.SZvZjWpih1JiUlv24xLhNwjTvzo9RNsrTiI9fchWldE'
+);
+await client.auth.signInWithPassword({ email: 'abdulaziz1076@gmail.com', password: '123456789' });
+
     // دالة تحميل طلبات التسجيل
 async function loadRegistrations() {
     const statusFilter = document.getElementById('regStatusFilter').value;
