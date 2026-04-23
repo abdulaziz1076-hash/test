@@ -15,6 +15,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=El+Messiri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Import map for Supabase -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -165,7 +174,41 @@
     </div>
 </footer>
 
-<script>
+<script type="module">
+    import { createClient } from '@supabase/supabase-js';
+    
+    // تكوين Supabase (نفس البيانات المستخدمة في المشروع)
+    const supabaseUrl = 'https://xyepcwptfihnztgghimx.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5ZXBjd3B0Zmlobnp0Z2doaW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0ODA2OTcsImV4cCI6MjA5MjA1NjY5N30.SZvZjWpih1JiUlv24xLhNwjTvzo9RNsrTiI9fchWldE';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    
+    // ---- دوال مساعدة ----
+    async function getClientIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            return 'غير متاح';
+        }
+    }
+    
+    function showToast(msg, isError = false) {
+        // استخدام دالة toast مخصصة أو إنشاء واحدة بسيطة
+        let toast = document.getElementById('toastMessage');
+        if (!toast) {
+            const div = document.createElement('div');
+            div.id = 'toastMessage';
+            div.className = 'toast-message';
+            document.body.appendChild(div);
+            toast = div;
+        }
+        toast.textContent = msg;
+        toast.style.backgroundColor = isError ? '#dc2626' : '#0F3D2E';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
     // ---- بيانات الترجمة (نموذج واحد) ----
     const translations = {
         ar: {
@@ -357,13 +400,16 @@
         }
     });
     
-    // إرسال النموذج
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzvbgne';
+    // ---- إرسال النموذج إلى Supabase ----
     const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const loadingDiv = document.getElementById('loadingMsg');
+    const successDiv = document.getElementById('successMsg');
     
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        // التحقق من صحة رقم الواتساب
         const whatsapp = document.getElementById('whatsapp').value;
         if (!/^[0-9]{9,15}$/.test(whatsapp.replace(/[^0-9]/g, ''))) {
             document.getElementById('whatsappError').style.display = 'block';
@@ -371,61 +417,58 @@
         }
         document.getElementById('whatsappError').style.display = 'none';
         
+        // التحقق من الموافقة على الشروط
         if (!document.getElementById('consentCheckbox').checked) {
-            alert(translations[currentLang].alertConsent);
+            const t = translations[currentLang];
+            alert(t.alertConsent);
             return;
         }
         
-        const formData = {
-            projectName: document.getElementById('projectName').value,
-            emirate: document.getElementById('emirate').value,
-            whatsapp: whatsapp,
-            instagram: document.getElementById('instagram').value || (currentLang === 'ar' ? 'غير مذكور' : 'Not provided'),
-            category: document.getElementById('category').value,
-            description: document.getElementById('description').value || (currentLang === 'ar' ? 'لا يوجد وصف' : 'No description'),
-            consent: currentLang === 'ar' ? 'نعم' : 'Yes',
-            date: new Date().toISOString(),
-            ip: await getClientIP()
-        };
-        
-        const submitBtn = document.getElementById('submitBtn');
-        const loadingDiv = document.getElementById('loadingMsg');
+        // إظهار التحميل
         submitBtn.disabled = true;
         loadingDiv.style.display = 'block';
+        successDiv.style.display = 'none';
         
-        let registrations = JSON.parse(localStorage.getItem('projectRegistrations') || '[]');
-        registrations.push(formData);
-        localStorage.setItem('projectRegistrations', JSON.stringify(registrations));
+        // جمع البيانات
+        const projectName = document.getElementById('projectName').value;
+        const emirate = document.getElementById('emirate').value;
+        const instagram = document.getElementById('instagram').value || '';
+        const category = document.getElementById('category').value;
+        const description = document.getElementById('description').value || '';
+        const ip = await getClientIP();
         
-        try {
-            const response = await fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-            if (response.ok) {
-                setTimeout(() => { window.location.href = 'thankyou.html'; }, 1000);
-            } else {
-                loadingDiv.style.display = 'none';
-                alert(currentLang === 'ar' ? 'حدث خطأ في إرسال الطلب. سيتم حفظ بياناتك محلياً وسنتواصل معك قريباً.' : 'There was an error sending your request. Your data has been saved locally and we will contact you soon.');
-                setTimeout(() => { window.location.href = 'thankyou.html'; }, 1500);
-            }
-        } catch (error) {
-            loadingDiv.style.display = 'none';
-            alert(currentLang === 'ar' ? 'خطأ في الشبكة. تم حفظ طلبك وسنتواصل معك قريباً.' : 'Network error. Your request has been saved and we will contact you soon.');
-            setTimeout(() => { window.location.href = 'thankyou.html'; }, 1500);
+        // إرسال إلى Supabase
+        const { data, error } = await supabase
+            .from('project_registrations')
+            .insert([
+                {
+                    project_name: projectName,
+                    emirate: emirate,
+                    whatsapp: whatsapp,
+                    instagram: instagram,
+                    category: category,
+                    description: description,
+                    ip: ip,
+                    status: 'pending'
+                }
+            ]);
+        
+        loadingDiv.style.display = 'none';
+        
+        if (error) {
+            console.error('Supabase insert error:', error);
+            const t = translations[currentLang];
+            alert(t.alertConsent || 'حدث خطأ في تسجيل طلبك. يرجى المحاولة لاحقاً.');
+            submitBtn.disabled = false;
+        } else {
+            successDiv.style.display = 'block';
+            form.reset();
+            // التوجيه إلى صفحة شكراً بعد 2 ثانية
+            setTimeout(() => {
+                window.location.href = 'thankyou.html';
+            }, 2000);
         }
     });
-    
-    async function getClientIP() {
-        try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
-        } catch (error) {
-            return 'غير متاح';
-        }
-    }
     
     updateUI();
 </script>
