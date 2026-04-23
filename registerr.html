@@ -16,18 +16,105 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- Import map for Supabase -->
-    <script type="importmap">
-        {
-            "imports": {
-                "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
-            }
+    <style>
+        /* مودال الشكر الخاص بصفحة التسجيل */
+        .thankyou-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 61, 46, 0.96);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
         }
-    </script>
+        .thankyou-modal.active {
+            display: flex;
+        }
+        .thankyou-modal-content {
+            background: white;
+            max-width: 450px;
+            width: 90%;
+            border-radius: 32px;
+            text-align: center;
+            padding: 35px 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid var(--secondary);
+            animation: fadeUp 0.3s ease;
+        }
+        .thankyou-modal-content .check-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0F3D2E, #1A5F44);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 2px solid var(--secondary);
+        }
+        .thankyou-modal-content .check-icon i {
+            font-size: 36px;
+            color: var(--secondary);
+        }
+        .thankyou-modal-content h3 {
+            font-family: 'El Messiri', serif;
+            font-size: 26px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .thankyou-modal-content p {
+            font-size: 15px;
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .thankyou-modal-content .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .thankyou-modal-content .btn-primary,
+        .thankyou-modal-content .btn-secondary {
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+        .thankyou-modal-content .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: 1px solid var(--secondary);
+        }
+        .thankyou-modal-content .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212,175,55,0.3);
+        }
+        .thankyou-modal-content .btn-secondary {
+            background: var(--light);
+            color: var(--primary-dark);
+            border: 1px solid var(--light-gray);
+        }
+        .thankyou-modal-content .btn-secondary:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: var(--primary-dark);
+        }
+    </style>
 </head>
 <body>
 
-<!-- ===== الهيدر مطابق تماماً للخدمات ===== -->
 <header class="app-header">
     <div class="header-container">
         <div class="logo-section" onclick="window.location.href='index.html'">
@@ -70,7 +157,6 @@
     </div>
 </header>
 
-<!-- محتوى التسجيل (نموذج واحد عربي/إنجليزي) -->
 <div class="register-container">
     <h1 id="pageTitle">📋 سجل مشروعك الآن</h1>
     <div class="sub" id="subText">العرض لفترة محدودة وعدد محدود من المشاريع - اغتنم الفرصة</div>
@@ -151,6 +237,25 @@
     </div>
 </div>
 
+<!-- مودال الشكر -->
+<div id="thankyouModal" class="thankyou-modal">
+    <div class="thankyou-modal-content">
+        <div class="check-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 id="thankyouTitle">شكراً لتسجيلك! 🌟</h3>
+        <p id="thankyouMessage">تم استلام طلب تسجيل مشروعك بنجاح.<br>سنقوم بمراجعة بياناتك والتواصل معك خلال <strong>24 ساعة</strong> عبر الواتساب.</p>
+        <div class="button-group">
+            <button class="btn-primary" id="closeModalBtn">
+                <i class="fas fa-check"></i> <span id="closeBtnText">إغلاق</span>
+            </button>
+            <a href="index.html" class="btn-secondary">
+                <i class="fas fa-home"></i> <span id="homeBtnText">العودة للرئيسية</span>
+            </a>
+        </div>
+    </div>
+</div>
+
 <footer class="app-footer">
     <div class="footer-content">
         <div class="footer-logo" id="footerLogo">سوق المشاريع</div>
@@ -174,41 +279,7 @@
     </div>
 </footer>
 
-<script type="module">
-    import { createClient } from '@supabase/supabase-js';
-    
-    // تكوين Supabase (نفس البيانات المستخدمة في المشروع)
-    const supabaseUrl = 'https://xyepcwptfihnztgghimx.supabase.co';
-    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5ZXBjd3B0Zmlobnp0Z2doaW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0ODA2OTcsImV4cCI6MjA5MjA1NjY5N30.SZvZjWpih1JiUlv24xLhNwjTvzo9RNsrTiI9fchWldE';
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    
-    // ---- دوال مساعدة ----
-    async function getClientIP() {
-        try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
-        } catch (error) {
-            return 'غير متاح';
-        }
-    }
-    
-    function showToast(msg, isError = false) {
-        // استخدام دالة toast مخصصة أو إنشاء واحدة بسيطة
-        let toast = document.getElementById('toastMessage');
-        if (!toast) {
-            const div = document.createElement('div');
-            div.id = 'toastMessage';
-            div.className = 'toast-message';
-            document.body.appendChild(div);
-            toast = div;
-        }
-        toast.textContent = msg;
-        toast.style.backgroundColor = isError ? '#dc2626' : '#0F3D2E';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-    
+<script>
     // ---- بيانات الترجمة (نموذج واحد) ----
     const translations = {
         ar: {
@@ -246,7 +317,11 @@
             navMarket: "السوق",
             navServices: "الخدمات العامة",
             navRegister: "تسجيل مشروع",
-            footerKeywords: "سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة"
+            footerKeywords: "سوق المشاريع | منصة المشاريع المنزلية في الإمارات | دليل الأسر المنتجة",
+            thankyouTitle: "شكراً لتسجيلك! 🌟",
+            thankyouMessage: "تم استلام طلب تسجيل مشروعك بنجاح.<br>سنقوم بمراجعة بياناتك والتواصل معك خلال <strong>24 ساعة</strong> عبر الواتساب.",
+            closeBtnText: "إغلاق",
+            homeBtnText: "العودة للرئيسية"
         },
         en: {
             pageTitle: "📋 Register Your Project Now",
@@ -283,7 +358,11 @@
             navMarket: "Market",
             navServices: "Services",
             navRegister: "Register Project",
-            footerKeywords: "Souq Almasharie | Home Projects Platform in UAE | Productive Families Directory"
+            footerKeywords: "Souq Almasharie | Home Projects Platform in UAE | Productive Families Directory",
+            thankyouTitle: "Thank You for Registering! 🌟",
+            thankyouMessage: "Your project registration request has been received successfully.<br>We will review your data and contact you within <strong>24 hours</strong> via WhatsApp.",
+            closeBtnText: "Close",
+            homeBtnText: "Back to Home"
         }
     };
 
@@ -316,7 +395,7 @@
         const consentLabel = document.getElementById('consentLabel');
         consentLabel.innerHTML = `${t.consentPrefix} <a href="consent-publish.html" target="_blank">${t.consentLinks.terms}</a>، <a href="terms.html" target="_blank">${t.consentLinks.usage}</a> و <a href="privacy.html" target="_blank">${t.consentLinks.privacy}</a><br>${t.consentSuffix}`;
         
-        // ترجمة القوائم المنسدلة مع الحفاظ على القيمة
+        // ترجمة القوائم المنسدلة
         const emirateSelect = document.getElementById('emirate');
         const selectedEmirate = emirateSelect.value;
         const emirateMap = {
@@ -366,6 +445,12 @@
         footerKeywords.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
         footerKeywords.innerText = t.footerKeywords;
         
+        // ترجمة المودال
+        document.getElementById('thankyouTitle').innerText = t.thankyouTitle;
+        document.getElementById('thankyouMessage').innerHTML = t.thankyouMessage;
+        document.getElementById('closeBtnText').innerText = t.closeBtnText;
+        document.getElementById('homeBtnText').innerText = t.homeBtnText;
+        
         if (currentLang === 'ar') {
             document.documentElement.setAttribute('dir', 'rtl');
             document.documentElement.setAttribute('lang', 'ar');
@@ -400,16 +485,15 @@
         }
     });
     
-    // ---- إرسال النموذج إلى Supabase ----
+    // إرسال النموذج
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzvbgne';
     const form = document.getElementById('registerForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loadingDiv = document.getElementById('loadingMsg');
-    const successDiv = document.getElementById('successMsg');
+    const thankyouModal = document.getElementById('thankyouModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
     
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // التحقق من صحة رقم الواتساب
         const whatsapp = document.getElementById('whatsapp').value;
         if (!/^[0-9]{9,15}$/.test(whatsapp.replace(/[^0-9]/g, ''))) {
             document.getElementById('whatsappError').style.display = 'block';
@@ -417,58 +501,83 @@
         }
         document.getElementById('whatsappError').style.display = 'none';
         
-        // التحقق من الموافقة على الشروط
         if (!document.getElementById('consentCheckbox').checked) {
-            const t = translations[currentLang];
-            alert(t.alertConsent);
+            alert(translations[currentLang].alertConsent);
             return;
         }
         
-        // إظهار التحميل
+        const formData = {
+            projectName: document.getElementById('projectName').value,
+            emirate: document.getElementById('emirate').value,
+            whatsapp: whatsapp,
+            instagram: document.getElementById('instagram').value || (currentLang === 'ar' ? 'غير مذكور' : 'Not provided'),
+            category: document.getElementById('category').value,
+            description: document.getElementById('description').value || (currentLang === 'ar' ? 'لا يوجد وصف' : 'No description'),
+            consent: currentLang === 'ar' ? 'نعم' : 'Yes',
+            date: new Date().toISOString(),
+            ip: await getClientIP()
+        };
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingDiv = document.getElementById('loadingMsg');
         submitBtn.disabled = true;
         loadingDiv.style.display = 'block';
-        successDiv.style.display = 'none';
         
-        // جمع البيانات
-        const projectName = document.getElementById('projectName').value;
-        const emirate = document.getElementById('emirate').value;
-        const instagram = document.getElementById('instagram').value || '';
-        const category = document.getElementById('category').value;
-        const description = document.getElementById('description').value || '';
-        const ip = await getClientIP();
+        // حفظ في localStorage
+        let registrations = JSON.parse(localStorage.getItem('projectRegistrations') || '[]');
+        registrations.push(formData);
+        localStorage.setItem('projectRegistrations', JSON.stringify(registrations));
         
-        // إرسال إلى Supabase
-        const { data, error } = await supabase
-            .from('project_registrations')
-            .insert([
-                {
-                    project_name: projectName,
-                    emirate: emirate,
-                    whatsapp: whatsapp,
-                    instagram: instagram,
-                    category: category,
-                    description: description,
-                    ip: ip,
-                    status: 'pending'
-                }
-            ]);
-        
-        loadingDiv.style.display = 'none';
-        
-        if (error) {
-            console.error('Supabase insert error:', error);
-            const t = translations[currentLang];
-            alert(t.alertConsent || 'حدث خطأ في تسجيل طلبك. يرجى المحاولة لاحقاً.');
+        try {
+            const response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            loadingDiv.style.display = 'none';
+            if (response.ok) {
+                // إظهار المودال بدلاً من الانتقال
+                thankyouModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                // إعادة تعيين النموذج
+                form.reset();
+            } else {
+                alert(currentLang === 'ar' ? 'حدث خطأ في إرسال الطلب. سيتم حفظ بياناتك محلياً وسنتواصل معك قريباً.' : 'There was an error sending your request. Your data has been saved locally and we will contact you soon.');
+                thankyouModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        } catch (error) {
+            loadingDiv.style.display = 'none';
+            alert(currentLang === 'ar' ? 'خطأ في الشبكة. تم حفظ طلبك وسنتواصل معك قريباً.' : 'Network error. Your request has been saved and we will contact you soon.');
+            thankyouModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } finally {
             submitBtn.disabled = false;
-        } else {
-            successDiv.style.display = 'block';
-            form.reset();
-            // التوجيه إلى صفحة شكراً بعد 2 ثانية
-            setTimeout(() => {
-                window.location.href = 'thankyou.html';
-            }, 2000);
         }
     });
+    
+    // إغلاق المودال
+    closeModalBtn.addEventListener('click', function() {
+        thankyouModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    // إغلاق عند النقر خارج المحتوى
+    thankyouModal.addEventListener('click', function(e) {
+        if (e.target === thankyouModal) {
+            thankyouModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    async function getClientIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            return 'غير متاح';
+        }
+    }
     
     updateUI();
 </script>
