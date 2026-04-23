@@ -700,19 +700,6 @@ if (btn.dataset.tab === 'registrations') loadRegistrations();
     window.editProduct = async (id) => { showToast('وظيفة التعديل متكاملة في الكود الكامل'); };
     window.deleteItem = async (table, id) => { if(confirm('حذف؟')) { let { error } = await supabase.from(table).delete().eq('id', id); if(error) showToast(error.message,true); else { showToast('تم الحذف'); location.reload(); } } };
 
-    // إحصائيات سريعة
-    async function loadStats() {
-        let { count: projectsCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
-        let { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
-        let { count: feedbacksCount } = await supabase.from('feedbacks').select('*', { count: 'exact', head: true });
-        document.getElementById('statsContainer').innerHTML = `
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-store"></i></div><div class="stat-number">${projectsCount||0}</div><div class="stat-label">المشاريع</div></div>
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-number">${productsCount||0}</div><div class="stat-label">المنتجات</div></div>
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-number">--</div><div class="stat-label">زيارات (آخر 30d)</div></div>
-            <div class="stat-card"><div class="stat-icon"><i class="fas fa-comment-dots"></i></div><div class="stat-number">${feedbacksCount||0}</div><div class="stat-label">الشكاوى</div></div>
-        `;
-    }
-
     // تهيئة الفلاتر
     async function initFilters() {
         let { data: projects } = await supabase.from('projects').select('id, name_ar');
